@@ -32,6 +32,10 @@
                     <MenuItem Header="Open..." Click="Open_Click"/>
                     <MenuItem Header="Save" Name="SaveM" IsEnabled="False" Click="Save_Click"/>
                     <MenuItem Header="Save As" Name="SaveAs" IsEnabled="False" Click="SaveAs_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Import" Name="Import" IsEnabled="False" Click="Import_Click" />
+                    <MenuItem Header="Export" Name="Export" IsEnabled="False" Click="Export_Click" />
+                    <Separator/>
                     <MenuItem Header="Exit" Click="Exit_Click"/>
                 </MenuItem>
                 <MenuItem Header="Testing">
@@ -49,7 +53,8 @@
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="85"/>
+                                        <ColumnDefinition Width="33"/>
                                         <ColumnDefinition Width="20"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="50"/>
@@ -73,74 +78,74 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
-                                    <Label Content="Quest ID"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" MaxLength="6" Grid.Column="2" Name="QID" Padding="0,5" Margin="0,5"/>
-                                    <Label Grid.Column="4" Content="Stars"/>
-                                    <ComboBox Grid.Column="6" Name="Stars" Padding="0,5" Margin="0,5" SelectionChanged="RankSelectionChanged"/>
-                                    <Label Grid.Row="1" Grid.Column="0" Content="Rank"/>
-                                    <Label Grid.Row="1" Grid.Column="4" Content="Map"/>
-                                    <Label Grid.Row="2" Grid.Column="0" Content="Player Spawn"/>
-                                    <CheckBox Grid.Row="2" Grid.Column="4" Content="Fixed Spawn" Name="FSpawn" Checked="FixedSpawn" Unchecked="FixedSpawn"/>
-                                    <Label Grid.Row="3" Grid.Column="0" Content="Time Cycle"/>
-                                    <Label Grid.Row="3" Grid.Column="4" Content="Weather Condition"/>
-                                    <Label Grid.Row="4" Grid.Column="0" Content="Multiplayer Modifier"/>
-                                    <Label Grid.Row="4" Grid.Column="4" Content="Quest Timer"/>
-                                    <Label Grid.Row="5" Grid.Column="0" Content="Reward Money"/>
-                                    <Label Grid.Row="5" Grid.Column="4" Content="Faint Penalty"/>
-                                    <Label Grid.Row="6" Grid.Column="0" Content="HR Requirement"/>
-                                    <Label Grid.Row="6" Grid.Column="4" Content="Background Music"/>
-                                    <Label Grid.Row="7" Grid.Column="0" Content="Quest Type"/>
-                                    <Label Grid.Row="7" Grid.Column="4" Content="Hunter Rank Points"/>
-                                    <Label Grid.Row="8" Grid.Column="0" Content="Reward rem ID"/>
-                                    <Label Grid.Row="9" Grid.Column="0" Content="Supply rem ID"/>
-                                    <Label Grid.Row="10" Grid.Column="0" Content="Number of Players"/>
-                                    <Label Grid.Row="11" Grid.Column="0" Content="Sub1 Reward rem ID"/>
-                                    <Label Grid.Row="11" Grid.Column="4" Content="Sub2 Reward rem ID"/>
-                                    <Label Grid.Row="12" Grid.Column="0" Content="Quest Clear Music"/>
-                                    <CheckBox Grid.Row="8" Grid.Column="4" Content="Map Toggle" Name="MapToggle"/>
-                                    <CheckBox Grid.Row="9" Grid.Column="4" Content="Arch-Tempered Quest" Name="ATFlag"/>
-                                    <CheckBox Grid.Row="10" Grid.Column="4" Content="Pre-Selected Gear" Name="PSGear"/>
-                                    <ComboBox Grid.Row="1" Grid.Column="2" Padding="0,5" Margin="0,5" Name="Rank" SelectionChanged="RankSelectionChanged"/>
-                                    <ComboBox Grid.Row="1" Grid.Column="6" Padding="0,5" Margin="0,5" Name="Map"/>
-                                    <ComboBox Grid.Row="2" Grid.Column="2" Padding="0,5" Margin="0,5" Name="PSpawn" SelectionChanged="PlayerSpawnChanged"/>
-                                    <ComboBox Grid.Row="3" Grid.Column="2" Padding="0,5" Margin="0,5" Name="Time"/>
-                                    <ComboBox Grid.Row="3" Grid.Column="6" Padding="0,5" Margin="0,5" Name="Weather"/>
-                                    <TextBox MaxLength="3" PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="2" Padding="0,5" Margin="0,5" Name="MPMod" />
-                                    <ComboBox Grid.Row="6" Grid.Column="2" Padding="0,5" Margin="0,5" Name="HRReq" SelectionChanged="RankSelectionChanged"/>
-                                    <ComboBox Grid.Row="6" Grid.Column="6" Padding="0,5" Margin="0,5" Name="BGM"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Padding="0,5" Margin="0,5" Name="QType"/>
-                                    <TextBox MaxLength="10" PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="6" Padding="0,5" Margin="0,5" Name="Timer"/>
-                                    <TextBox MaxLength="10" PreviewTextInput="NumberValidationTextBox" Grid.Row="5" Grid.Column="2" Padding="0,5" Margin="0,5" Name="Reward"/>
-                                    <TextBox MaxLength="10" PreviewTextInput="NumberValidationTextBox" Grid.Row="5" Grid.Column="6" Padding="0,5" Margin="0,5" Name="Penalty"/>
-                                    <TextBox MaxLength="10" PreviewTextInput="NumberValidationTextBox" Grid.Row="7" Grid.Column="6" Padding="0,5" Margin="0,5" Name="HRpoint"/>
-                                    <TextBox MaxLength="9" PreviewTextInput="NumberValidationTextBox" Grid.Row="8" Grid.Column="2" Padding="0,5" Margin="0,5" Name="RRemID"/>
-                                    <TextBox MaxLength="9" PreviewTextInput="NumberValidationTextBox" Grid.Row="9" Grid.Column="2" Padding="0,5" Margin="0,5" Name="SRemID"/>
-                                    <TextBox MaxLength="9" PreviewTextInput="NumberValidationTextBox" Grid.Row="11" Grid.Column="2" Padding="0,5" Margin="0,5" Name="S1RRemID"/>
-                                    <TextBox MaxLength="9" PreviewTextInput="NumberValidationTextBox" Grid.Row="11" Grid.Column="6" Padding="0,5" Margin="0,5" Name="S2RRemID"/>
-                                    <ComboBox Grid.Row="10" Grid.Column="2" Padding="0,5" Margin="0,5" Name="NPlayers"/>
-                                    <ComboBox Grid.Row="12" Grid.Column="2" Padding="0,5" Margin="0,5" Name="QCMusic"/>
+                                    <Label Content="Quest ID" Grid.ColumnSpan="2" Margin="0,6"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" MaxLength="6" Grid.Column="3" Name="QuestID" Padding="0,5" Margin="0,5"/>
+                                    <Label Grid.Column="5" Content="Stars" Margin="0,6"/>
+                                    <ComboBox Grid.Column="7" Name="QuestStars" Padding="0,5" Margin="0,5" SelectionChanged="QuestRankSelectionChanged"/>
+                                    <Label Grid.Row="1" Grid.Column="0" Content="Rank" Grid.ColumnSpan="2" Margin="0,5"/>
+                                    <Label Grid.Row="1" Grid.Column="5" Content="Map" Margin="0,5"/>
+                                    <Label Grid.Row="2" Grid.Column="0" Content="Player Spawn" Grid.ColumnSpan="2" Margin="0,5"/>
+                                    <CheckBox Grid.Row="2" Grid.Column="5" Content="Fixed Spawn" Name="FixedSpawnFlag" Checked="FixedSpawnChanged" Unchecked="FixedSpawnChanged"/>
+                                    <Label Grid.Row="3" Grid.Column="0" Content="Time Cycle" Grid.ColumnSpan="2" Margin="0,5"/>
+                                    <Label Grid.Row="3" Grid.Column="5" Content="Weather Condition" Margin="0,5"/>
+                                    <Label Grid.Row="4" Grid.Column="0" Content="Multiplayer Modifier" Grid.ColumnSpan="2" Margin="0,6"/>
+                                    <Label Grid.Row="4" Grid.Column="5" Content="Quest Timer" Margin="0,6"/>
+                                    <Label Grid.Row="5" Grid.Column="0" Content="Reward Money" Grid.ColumnSpan="2" Margin="0,6"/>
+                                    <Label Grid.Row="5" Grid.Column="5" Content="Faint Penalty" Margin="0,6"/>
+                                    <Label Grid.Row="6" Grid.Column="0" Content="HR Requirement" Grid.ColumnSpan="2" Margin="0,5"/>
+                                    <Label Grid.Row="6" Grid.Column="5" Content="Background Music" Margin="0,5"/>
+                                    <Label Grid.Row="7" Grid.Column="0" Content="Quest Type" Grid.ColumnSpan="2" Margin="0,6"/>
+                                    <Label Grid.Row="7" Grid.Column="5" Content="Hunter Rank Points" Margin="0,6"/>
+                                    <Label Grid.Row="8" Grid.Column="0" Content="Reward rem ID" Grid.ColumnSpan="2" Margin="0,6"/>
+                                    <Label Grid.Row="9" Grid.Column="0" Content="Supply rem ID" Grid.ColumnSpan="2" Margin="0,6"/>
+                                    <Label Grid.Row="10" Grid.Column="0" Content="Number of Players" Grid.ColumnSpan="2" Margin="0,5"/>
+                                    <Label Grid.Row="11" Grid.Column="0" Content="Sub1 Reward rem ID" Grid.ColumnSpan="2" Margin="0,6"/>
+                                    <Label Grid.Row="11" Grid.Column="5" Content="Sub2 Reward rem ID" Margin="0,6"/>
+                                    <Label Grid.Row="12" Grid.Column="0" Content="Quest Clear Music" Grid.ColumnSpan="2" Margin="0,5"/>
+                                    <CheckBox Grid.Row="8" Grid.Column="5" Content="Map Toggle" Name="QuestMapToggleFlag"/>
+                                    <CheckBox Grid.Row="9" Grid.Column="5" Content="Arch-Tempered Quest" Name="QuestArchTemperedFlag"/>
+                                    <CheckBox Grid.Row="10" Grid.Column="5" Content="Pre-Selected Gear" Name="QuestPreSelectedGearFlag"/>
+                                    <ComboBox Grid.Row="1" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestRank" SelectionChanged="QuestRankSelectionChanged"/>
+                                    <ComboBox Grid.Row="1" Grid.Column="7" Padding="0,5" Margin="0,5" Name="QuestMap"/>
+                                    <ComboBox Grid.Row="2" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestPlayerSpawnLocation" SelectionChanged="QuestPlayerSpawnLocationChanged"/>
+                                    <ComboBox Grid.Row="3" Grid.Column="3" Padding="0,5" Margin="0,5" Name="TimeCycle"/>
+                                    <ComboBox Grid.Row="3" Grid.Column="7" Padding="0,5" Margin="0,5" Name="WeatherCondition"/>
+                                    <TextBox MaxLength="3" PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="3" Padding="0,5" Margin="0,5" Name="MultiPlayerModifier" />
+                                    <ComboBox Grid.Row="6" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestHunterHankRequirements" SelectionChanged="QuestRankSelectionChanged"/>
+                                    <ComboBox Grid.Row="6" Grid.Column="7" Padding="0,5" Margin="0,5" Name="QuestBackgroundMusic"/>
+                                    <ComboBox Grid.Row="7" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestType"/>
+                                    <TextBox MaxLength="10" PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="7" Padding="0,5" Margin="0,5" Name="QuestTimer"/>
+                                    <TextBox MaxLength="10" PreviewTextInput="NumberValidationTextBox" Grid.Row="5" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestRewardMoney"/>
+                                    <TextBox MaxLength="10" PreviewTextInput="NumberValidationTextBox" Grid.Row="5" Grid.Column="7" Padding="0,5" Margin="0,5" Name="QuestFaintPenalty"/>
+                                    <TextBox MaxLength="10" PreviewTextInput="NumberValidationTextBox" Grid.Row="7" Grid.Column="7" Padding="0,5" Margin="0,5" Name="QuestHunterRankRewardPoints"/>
+                                    <TextBox MaxLength="9" PreviewTextInput="NumberValidationTextBox" Grid.Row="8" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestItemRewardsRemID"/>
+                                    <TextBox MaxLength="9" PreviewTextInput="NumberValidationTextBox" Grid.Row="9" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestSupplyBoxRemID"/>
+                                    <TextBox MaxLength="9" PreviewTextInput="NumberValidationTextBox" Grid.Row="11" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestSub1RewardsRemID"/>
+                                    <TextBox MaxLength="9" PreviewTextInput="NumberValidationTextBox" Grid.Row="11" Grid.Column="7" Padding="0,5" Margin="0,5" Name="QuestSub2RewardsRemID"/>
+                                    <ComboBox Grid.Row="10" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestNumberOfPlayers"/>
+                                    <ComboBox Grid.Row="12" Grid.Column="3" Padding="0,5" Margin="0,5" Name="QuestClearMusic"/>
                                 </Grid>
                                 <GroupBox Header="Icons">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <ComboBox Grid.Column="0" Name="Icon1"/>
-                                    <ComboBox Grid.Column="2" Name="Icon2"/>
-                                    <ComboBox Grid.Column="4" Name="Icon3"/>
-                                    <ComboBox Grid.Column="6" Name="Icon4"/>
-                                    <ComboBox Grid.Column="8" Name="Icon5"/>
-                                </Grid>
-                            </GroupBox>
-                                </StackPanel>  
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox Grid.Column="0" Name="QuestObjectiveIcon1"/>
+                                        <ComboBox Grid.Column="2" Name="QuestObjectiveIcon2"/>
+                                        <ComboBox Grid.Column="4" Name="QuestObjectiveIcon3"/>
+                                        <ComboBox Grid.Column="6" Name="QuestObjectiveIcon4"/>
+                                        <ComboBox Grid.Column="8" Name="QuestObjectiveIcon5"/>
+                                    </Grid>
+                                </GroupBox>
+                            </StackPanel>
                         </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Objectives">
@@ -155,9 +160,10 @@
                                 <GroupBox Header="Main Objective 1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="34*"/>
+                                            <ColumnDefinition Width="137*"/>
                                             <ColumnDefinition Width="20"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="170*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
@@ -166,13 +172,13 @@
                                             <RowDefinition Height="010"/>
                                             <RowDefinition Height="auto"/>
                                         </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" Content="Objective Type:"/>
-                                        <Label Grid.Row="2" Content="Objective ID:"/>
-                                        <Label Grid.Row="4" Content="Amount"/>
-                                        <CheckBox Grid.Row="1" Content="Multi-Monster" Name="MObj1MM"/>
-                                        <ComboBox Grid.Column="2" Name="MObjT1" SelectionChanged="MObjT1_Changed"/>
-                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="MObjID1"/>
-                                        <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="2" Name="MObjC1"/>
+                                        <Label Grid.Row="0" Content="Objective Type:" Grid.ColumnSpan="2"/>
+                                        <Label Grid.Row="2" Content="Objective ID:" Grid.ColumnSpan="2"/>
+                                        <Label Grid.Row="4" Content="Amount" Grid.ColumnSpan="2"/>
+                                        <CheckBox Grid.Row="1" Content="Multi-Monster" Name="MainObjective1MultiMonsterFlag" Grid.ColumnSpan="2"/>
+                                        <ComboBox Grid.Column="3" Name="MainObjective1Type" SelectionChanged="MainObjective1Type_Changed"/>
+                                        <ComboBox Grid.Row="2" Grid.Column="3" Name="MainObjective1ID"/>
+                                        <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="3" Name="MainObjective1Amount"/>
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox Grid.Column="2" Header="Main Objective 2" Name="MObj2" IsEnabled="False">
@@ -192,10 +198,10 @@
                                         <Label Grid.Row="0" Content="Objective Type:"/>
                                         <Label Grid.Row="2" Content="Objective ID:"/>
                                         <Label Grid.Row="4" Content="Amount"/>
-                                        <CheckBox Grid.Row="1" Content="Multi-Monster" Name="MObj2MM"/>
-                                        <ComboBox Grid.Column="2" Name="MObjT2" SelectionChanged="MObjT2_Changed"/>
-                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="MObjID2"/>
-                                        <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="2" Name="MObjC2"/>
+                                        <CheckBox Grid.Row="1" Content="Multi-Monster" Name="MainObjective2MultiMonsterFlag"/>
+                                        <ComboBox Grid.Column="2" Name="MainObjective2Type" SelectionChanged="MainObjective2Type_Changed"/>
+                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="MainObjective2ID"/>
+                                        <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="2" Name="MainObjective2Amount"/>
                                     </Grid>
                                 </GroupBox>
                             </Grid>
@@ -222,10 +228,10 @@
                                         <Label Grid.Row="0" Content="Objective Type:"/>
                                         <Label Grid.Row="2" Content="Objective ID:"/>
                                         <Label Grid.Row="4" Content="Amount"/>
-                                        <CheckBox Grid.Row="1" Content="Multi-Monster" Name="SObj1MM"/>
-                                        <ComboBox Grid.Column="2" Name="SObjT1" SelectionChanged="SObjT1_Changed"/>
-                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="SObjID1"/>
-                                        <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="2" Name="SObjC1"/>
+                                        <CheckBox Grid.Row="1" Content="Multi-Monster" Name="SubObjective1MultiMonsterFlag"/>
+                                        <ComboBox Grid.Column="2" Name="SubObjective1Type" SelectionChanged="SubObjective1Type_Changed"/>
+                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="SubObjective1ID"/>
+                                        <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="2" Name="SubObjective1Amount"/>
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox Grid.Column="2" Header="Sub Objective 2">
@@ -245,10 +251,10 @@
                                         <Label Grid.Row="0" Content="Objective Type:"/>
                                         <Label Grid.Row="2" Content="Objective ID:"/>
                                         <Label Grid.Row="4" Content="Amount"/>
-                                        <CheckBox Grid.Row="1" Content="Multi-Monster" Name="SObj2MM"/>
-                                        <ComboBox Grid.Column="2" Name="SObjT2" SelectionChanged="SObjT2_Changed"/>
-                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="SObjID2"/>
-                                        <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="2" Name="SObjC2"/>
+                                        <CheckBox Grid.Row="1" Content="Multi-Monster" Name="SubObjective2MultiMonsterFlag"/>
+                                        <ComboBox Grid.Column="2" Name="SubObjective2Type" SelectionChanged="SubObjective2Type_Changed"/>
+                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="SubObjective2ID"/>
+                                        <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Row="4" Grid.Column="2" Name="SubObjective2Amount"/>
                                     </Grid>
                                 </GroupBox>
                             </Grid>
@@ -291,21 +297,21 @@
                                     <Label Grid.Row="5" Grid.Column="4" Content="Base Stun"/>
                                     <Label Grid.Row="6" Grid.Column="0" Content="Base Exhaust"/>
                                     <Label Grid.Row="6" Grid.Column="4" Content="Base Mount"/>
-                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="M1TFlag"/>
-                                    <ComboBox Grid.Column="2" Name="M1ID"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="M1sobjID"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="M1HtP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="M1Atk" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="M1Def" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="M1HAR" Margin="0,5" Padding="0,5"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "M1Siz" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="M1SeT" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="M1PHP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="M1BSt" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="M1StB" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="M1BKO" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="M1BEx" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="M1BMo" Margin="0,5" Padding="0,5"/>
+                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="Monster1ArchTemperedFlag"/>
+                                    <ComboBox Grid.Column="2" Name="Monster1ID" />
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="Monster1SobjID"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="Monster1HealthPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="Monster1AttackPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="Monster1DefensePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="Monster1HPAttackRoll" Margin="0,5" Padding="0,5"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "Monster1SizePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="Monster1SizeTable" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="Monster1PartHPPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="Monster1BaseStatusResistPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="Monster1StatusBuildupPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="Monster1BaseStunPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="Monster1BaseExhaustPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="Monster1BaseMountPct" Margin="0,5" Padding="0,5"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Monster 2">
@@ -343,21 +349,21 @@
                                     <Label Grid.Row="5" Grid.Column="4" Content="Base Stun"/>
                                     <Label Grid.Row="6" Grid.Column="0" Content="Base Exhaust"/>
                                     <Label Grid.Row="6" Grid.Column="4" Content="Base Mount"/>
-                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="M2TFlag"/>
-                                    <ComboBox Grid.Column="2" Name="M2ID"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="M2sobjID"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="M2HtP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="M2Atk" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="M2Def" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="M2HAR" Margin="0,5" Padding="0,5"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "M2Siz" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="M2SeT" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="M2PHP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="M2BSt" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="M2StB" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="M2BKO" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="M2BEx" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="M2BMo" Margin="0,5" Padding="0,5"/>
+                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="Monster2ArchTemperedFlag"/>
+                                    <ComboBox Grid.Column="2" Name="Monster2ID"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="Monster2SobjID"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="Monster2HealthPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="Monster2AttackPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="Monster2DefensePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="Monster2HPAttackRoll" Margin="0,5" Padding="0,5"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "Monster2SizePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="Monster2SizeTable" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="Monster2PartHPPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="Monster2BaseStatusResistPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="Monster2StatusBuildupPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="Monster2BaseStunPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="Monster2BaseExhaustPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="Monster2BaseMountPct" Margin="0,5" Padding="0,5"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Monster 3">
@@ -395,21 +401,21 @@
                                     <Label Grid.Row="5" Grid.Column="4" Content="Base Stun"/>
                                     <Label Grid.Row="6" Grid.Column="0" Content="Base Exhaust"/>
                                     <Label Grid.Row="6" Grid.Column="4" Content="Base Mount"/>
-                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="M3TFlag"/>
-                                    <ComboBox Grid.Column="2" Name="M3ID"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="M3sobjID"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="M3HtP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="M3Atk" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="M3Def" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="M3HAR" Margin="0,5" Padding="0,5"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "M3Siz" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="M3SeT" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="M3PHP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="M3BSt" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="M3StB" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="M3BKO" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="M3BEx" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="M3BMo" Margin="0,5" Padding="0,5"/>
+                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="Monster3ArchTemperedFlag"/>
+                                    <ComboBox Grid.Column="2" Name="Monster3ID"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="Monster3SobjID"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="Monster3HealthPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="Monster3AttackPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="Monster3DefensePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="Monster3HPAttackRoll" Margin="0,5" Padding="0,5"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "Monster3SizePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="Monster3SizeTable" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="Monster3PartHPPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="Monster3BaseStatusResistPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="Monster3StatusBuildupPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="Monster3BaseStunPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="Monster3BaseExhaustPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="Monster3BaseMountPct" Margin="0,5" Padding="0,5"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Monster 4">
@@ -447,21 +453,21 @@
                                     <Label Grid.Row="5" Grid.Column="4" Content="Base Stun"/>
                                     <Label Grid.Row="6" Grid.Column="0" Content="Base Exhaust"/>
                                     <Label Grid.Row="6" Grid.Column="4" Content="Base Mount"/>
-                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="M4TFlag"/>
-                                    <ComboBox Grid.Column="2" Name="M4ID"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="M4sobjID"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="M4HtP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="M4Atk" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="M4Def" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="M4HAR" Margin="0,5" Padding="0,5"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "M4Siz" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="M4SeT" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="M4PHP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="M4BSt" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="M4StB" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="M4BKO" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="M4BEx" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="M4BMo" Margin="0,5" Padding="0,5"/>
+                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="Monster4ArchTemperedFlag"/>
+                                    <ComboBox Grid.Column="2" Name="Monster4ID"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="Monster4SobjID"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="Monster4HealthPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="Monster4AttackPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="Monster4DefensePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="Monster4HPAttackRoll" Margin="0,5" Padding="0,5"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "Monster4SizePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="Monster4SizeTable" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="Monster4PartHPPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="Monster4BaseStatusResistPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="Monster4StatusBuildupPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="Monster4BaseStunPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="Monster4BaseExhaustPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="Monster4BaseMountPct" Margin="0,5" Padding="0,5"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Monster 5">
@@ -499,21 +505,21 @@
                                     <Label Grid.Row="5" Grid.Column="4" Content="Base Stun"/>
                                     <Label Grid.Row="6" Grid.Column="0" Content="Base Exhaust"/>
                                     <Label Grid.Row="6" Grid.Column="4" Content="Base Mount"/>
-                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="M5TFlag"/>
-                                    <ComboBox Grid.Column="2" Name="M5ID"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="M5sobjID"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="M5HtP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="M5Atk" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="M5Def" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="M5HAR" Margin="0,5" Padding="0,5"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "M5Siz" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="M5SeT" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="M5PHP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="M5BSt" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="M5StB" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="M5BKO" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="M5BEx" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="M5BMo" Margin="0,5" Padding="0,5"/>
+                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="Monster5ArchTemperedFlag"/>
+                                    <ComboBox Grid.Column="2" Name="Monster5ID"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="Monster5SobjID"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="Monster5HealthPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="Monster5AttackPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="Monster5DefensePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="Monster5HPAttackRoll" Margin="0,5" Padding="0,5"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "Monster5SizePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="Monster5SizeTable" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="Monster5PartHPPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="Monster5BaseStatusResistPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="Monster5StatusBuildupPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="Monster5BaseStunPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="Monster5BaseExhaustPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="Monster5BaseMountPct" Margin="0,5" Padding="0,5"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Monster 6">
@@ -551,21 +557,21 @@
                                     <Label Grid.Row="5" Grid.Column="4" Content="Base Stun"/>
                                     <Label Grid.Row="6" Grid.Column="0" Content="Base Exhaust"/>
                                     <Label Grid.Row="6" Grid.Column="4" Content="Base Mount"/>
-                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="M6TFlag"/>
-                                    <ComboBox Grid.Column="2" Name="M6ID"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="M6sobjID"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="M6HtP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="M6Atk" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="M6Def" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="M6HAR" Margin="0,5" Padding="0,5"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "M6Siz" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="M6SeT" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="M6PHP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="M6BSt" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="M6StB" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="M6BKO" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="M6BEx" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="M6BMo" Margin="0,5" Padding="0,5"/>
+                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="Monster6ArchTemperedFlag"/>
+                                    <ComboBox Grid.Column="2" Name="Monster6ID"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="Monster6SobjID"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="Monster6HealthPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="Monster6AttackPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="Monster6DefensePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="Monster6HPAttackRoll" Margin="0,5" Padding="0,5"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "Monster6SizePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="Monster6SizeTable" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="Monster6PartHPPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="Monster6BaseStatusResistPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="Monster6StatusBuildupPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="Monster6BaseStunPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="Monster6BaseExhaustPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="Monster6BaseMountPct" Margin="0,5" Padding="0,5"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Monster 7">
@@ -603,21 +609,21 @@
                                     <Label Grid.Row="5" Grid.Column="4" Content="Base Stun"/>
                                     <Label Grid.Row="6" Grid.Column="0" Content="Base Exhaust"/>
                                     <Label Grid.Row="6" Grid.Column="4" Content="Base Mount"/>
-                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="M7TFlag"/>
-                                    <ComboBox Grid.Column="2" Name="M7ID"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="M7sobjID"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="M7HtP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="M7Atk" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="M7Def" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="M7HAR" Margin="0,5" Padding="0,5"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "M7Siz" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="M7SeT" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="M7PHP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="M7BSt" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="M7StB" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="M7BKO" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="M7BEx" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="M7BMo" Margin="0,5" Padding="0,5"/>
+                                    <CheckBox  Grid.Row="7" Grid.Column="0" Content="(Arch-)Tempered" Name="Monster7ArchTemperedFlag"/>
+                                    <ComboBox Grid.Column="2" Name="Monster7ID"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="6" Name="Monster7SobjID"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="Monster7HealthPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="1" Name="Monster7AttackPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="Monster7DefensePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="2" Name="Monster7HPAttackRoll" Margin="0,5" Padding="0,5"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name= "Monster7SizePct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="3" Name="Monster7SizeTable" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="4" Name="Monster7PartHPPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="4" Name="Monster7BaseStatusResistPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="5" Name="Monster7StatusBuildupPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="5" Name="Monster7BaseStunPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="6" Name="Monster7BaseExhaustPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="6" Grid.Row="6" Name="Monster7BaseMountPct" Margin="0,5" Padding="0,5"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Small Monsters">
@@ -626,7 +632,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="20"/>
                                         <ColumnDefinition Width="*"/>
-                                       </Grid.ColumnDefinitions>
+                                    </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
@@ -641,10 +647,10 @@
                                     <Label Grid.Row="1" Content="Health"/>
                                     <Label Grid.Row="2" Content="Attack"/>
                                     <Label Grid.Row="3" Content="KO/Status/Defense"/>
-                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="0" Name="sMsobj" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="sMHP" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="sMAt" Margin="0,5" Padding="0,5"/>
-                                    <ComboBox Grid.Column="2" Grid.Row="3" Name="sMDe" Margin="0,5" Padding="0,5"/>
+                                    <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="0" Name="SmallMonstersSobjID" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="1" Name="SmallMonstersHealthPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="2" Name="SmallMonstersAttackPct" Margin="0,5" Padding="0,5"/>
+                                    <ComboBox Grid.Column="2" Grid.Row="3" Name="SmallMonstersKOStatusDefensePct" Margin="0,5" Padding="0,5"/>
                                 </Grid>
                             </TabItem>
                         </TabControl>
@@ -658,7 +664,7 @@
                                     <ColumnDefinition Width="100"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="Global Monster Delay (minutes)"/>
-                                <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Name="SpawnDelay"/>
+                                <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Name="MonsterSpawnGlobalDelayInMinutes"/>
                             </Grid>
                             <Grid Margin="50,0">
                                 <Grid.ColumnDefinitions>
@@ -668,11 +674,11 @@
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="Sequential Spawn Rules" Width="200">
                                     <StackPanel>
-                                        <ComboBox Name="M1SSpw" Padding="0,5" Margin="0,5" MaxWidth="200"/>
-                                        <ComboBox Name="M2SSpw" Padding="0,5" Margin="0,5" MaxWidth="200"/>
-                                        <ComboBox Name="M3SSpw" Padding="0,5" Margin="0,5" MaxWidth="200"/>
-                                        <ComboBox Name="M4SSpw" Padding="0,5" Margin="0,5" MaxWidth="200"/>
-                                        <ComboBox Name="M5SSpw" Padding="0,5" Margin="0,5" MaxWidth="200"/>
+                                        <ComboBox Name="Monster1SequentialSpawnRules" Padding="0,5" Margin="0,5" MaxWidth="200"/>
+                                        <ComboBox Name="Monster2SequentialSpawnRules" Padding="0,5" Margin="0,5" MaxWidth="200"/>
+                                        <ComboBox Name="Monster3SequentialSpawnRules" Padding="0,5" Margin="0,5" MaxWidth="200"/>
+                                        <ComboBox Name="Monster4SequentialSpawnRules" Padding="0,5" Margin="0,5" MaxWidth="200"/>
+                                        <ComboBox Name="Monster5SequentialSpawnRules" Padding="0,5" Margin="0,5" MaxWidth="200"/>
                                     </StackPanel>
                                 </GroupBox>
                                 <GroupBox Grid.Column="3" Header="Table Spawn Chances">
@@ -692,13 +698,13 @@
                                             <Label Content="Monster 7 Spawn Chance" Padding="0,5" Margin="0,6"/>
                                         </StackPanel>
                                         <StackPanel Grid.Column="2">
-                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="M6SpD" Padding="0,5" Margin="0,5.2"/>
-                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="M7SpD" Padding="0,5" Margin="0,5.2"/>
-                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="M3SpC" Padding="0,5" Margin="0,5.2"/>
-                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="M4SpC" Padding="0,5" Margin="0,5.2"/>
-                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="M5SpC" Padding="0,5" Margin="0,5.2"/>
-                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="M6SpC" Padding="0,5" Margin="0,5.2"/>
-                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="M7SpC" Padding="0,5" Margin="0,5.2"/>
+                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="Monster6SpawnDecider" Padding="0,5" Margin="0,5.2"/>
+                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="Monster7SpawnDecider" Padding="0,5" Margin="0,5.2"/>
+                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="Monster3SpawnPercentChance" Padding="0,5" Margin="0,5.2"/>
+                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="Monster4SpawnPercentChance" Padding="0,5" Margin="0,5.2"/>
+                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="Monster5SpawnPercentChance" Padding="0,5" Margin="0,5.2"/>
+                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="Monster6SpawnPercentChance" Padding="0,5" Margin="0,5.2"/>
+                                            <TextBox PreviewTextInput="NumberValidationTextBox" Name="Monster7SpawnPercentChance" Padding="0,5" Margin="0,5.2"/>
                                         </StackPanel>
                                     </Grid>
                                 </GroupBox>
@@ -795,57 +801,57 @@
                                         <Label Grid.Row="16" Grid.Column="0" Content="Area 17 Icon Value 1"/>
                                         <Label Grid.Row="16" Grid.Column="4" Content="Area 17 Icon Value 2"/>
                                         <Label Grid.Row="16" Grid.Column="8" Content="Area 17 Icon Value 3"/>
-                                        <ComboBox Grid.Row="00" Grid.Column="02" Name="MapIcon01" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="00" Grid.Column="06" Name="MapIcon02" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="00" Grid.Column="10" Name="MapIcon03" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="01" Grid.Column="02" Name="MapIcon04" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="01" Grid.Column="06" Name="MapIcon05" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="01" Grid.Column="10" Name="MapIcon06" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="02" Grid.Column="02" Name="MapIcon07" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="02" Grid.Column="06" Name="MapIcon08" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="02" Grid.Column="10" Name="MapIcon09" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="03" Grid.Column="02" Name="MapIcon10" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="03" Grid.Column="06" Name="MapIcon11" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="03" Grid.Column="10" Name="MapIcon12" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="04" Grid.Column="02" Name="MapIcon13" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="04" Grid.Column="06" Name="MapIcon14" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="04" Grid.Column="10" Name="MapIcon15" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="05" Grid.Column="02" Name="MapIcon16" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="05" Grid.Column="06" Name="MapIcon17" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="05" Grid.Column="10" Name="MapIcon18" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="06" Grid.Column="02" Name="MapIcon19" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="06" Grid.Column="06" Name="MapIcon20" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="06" Grid.Column="10" Name="MapIcon21" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="07" Grid.Column="02" Name="MapIcon22" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="07" Grid.Column="06" Name="MapIcon23" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="07" Grid.Column="10" Name="MapIcon24" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="08" Grid.Column="02" Name="MapIcon25" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="08" Grid.Column="06" Name="MapIcon26" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="08" Grid.Column="10" Name="MapIcon27" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="09" Grid.Column="02" Name="MapIcon28" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="09" Grid.Column="06" Name="MapIcon29" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="09" Grid.Column="10" Name="MapIcon30" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="10" Grid.Column="02" Name="MapIcon31" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="10" Grid.Column="06" Name="MapIcon32" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="10" Grid.Column="10" Name="MapIcon33" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="11" Grid.Column="02" Name="MapIcon34" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="11" Grid.Column="06" Name="MapIcon35" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="11" Grid.Column="10" Name="MapIcon36" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="12" Grid.Column="02" Name="MapIcon37" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="12" Grid.Column="06" Name="MapIcon38" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="12" Grid.Column="10" Name="MapIcon39" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="13" Grid.Column="02" Name="MapIcon40" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="13" Grid.Column="06" Name="MapIcon41" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="13" Grid.Column="10" Name="MapIcon42" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="14" Grid.Column="02" Name="MapIcon43" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="14" Grid.Column="06" Name="MapIcon44" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="14" Grid.Column="10" Name="MapIcon45" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="15" Grid.Column="02" Name="MapIcon46" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="15" Grid.Column="06" Name="MapIcon47" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="15" Grid.Column="10" Name="MapIcon48" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="16" Grid.Column="02" Name="MapIcon49" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="16" Grid.Column="06" Name="MapIcon50" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="16" Grid.Column="10" Name="MapIcon51" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="00" Grid.Column="02" Name="MapIconArea01Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="00" Grid.Column="06" Name="MapIconArea01Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="00" Grid.Column="10" Name="MapIconArea01Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="01" Grid.Column="02" Name="MapIconArea02Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="01" Grid.Column="06" Name="MapIconArea02Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="01" Grid.Column="10" Name="MapIconArea02Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="02" Grid.Column="02" Name="MapIconArea03Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="02" Grid.Column="06" Name="MapIconArea03Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="02" Grid.Column="10" Name="MapIconArea03Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="03" Grid.Column="02" Name="MapIconArea04Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="03" Grid.Column="06" Name="MapIconArea04Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="03" Grid.Column="10" Name="MapIconArea04Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="04" Grid.Column="02" Name="MapIconArea05Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="04" Grid.Column="06" Name="MapIconArea05Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="04" Grid.Column="10" Name="MapIconArea05Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="05" Grid.Column="02" Name="MapIconArea06Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="05" Grid.Column="06" Name="MapIconArea06Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="05" Grid.Column="10" Name="MapIconArea06Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="06" Grid.Column="02" Name="MapIconArea07Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="06" Grid.Column="06" Name="MapIconArea07Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="06" Grid.Column="10" Name="MapIconArea07Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="07" Grid.Column="02" Name="MapIconArea08Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="07" Grid.Column="06" Name="MapIconArea08Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="07" Grid.Column="10" Name="MapIconArea08Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="08" Grid.Column="02" Name="MapIconArea09Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="08" Grid.Column="06" Name="MapIconArea09Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="08" Grid.Column="10" Name="MapIconArea09Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="09" Grid.Column="02" Name="MapIconArea10Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="09" Grid.Column="06" Name="MapIconArea10Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="09" Grid.Column="10" Name="MapIconArea10Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="10" Grid.Column="02" Name="MapIconArea11Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="10" Grid.Column="06" Name="MapIconArea11Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="10" Grid.Column="10" Name="MapIconArea11Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="11" Grid.Column="02" Name="MapIconArea12Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="11" Grid.Column="06" Name="MapIconArea12Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="11" Grid.Column="10" Name="MapIconArea12Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="12" Grid.Column="02" Name="MapIconArea13Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="12" Grid.Column="06" Name="MapIconArea13Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="12" Grid.Column="10" Name="MapIconArea13Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="13" Grid.Column="02" Name="MapIconArea14Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="13" Grid.Column="06" Name="MapIconArea14Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="13" Grid.Column="10" Name="MapIconArea14Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="14" Grid.Column="02" Name="MapIconArea15Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="14" Grid.Column="06" Name="MapIconArea15Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="14" Grid.Column="10" Name="MapIconArea15Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="15" Grid.Column="02" Name="MapIconArea16Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="15" Grid.Column="06" Name="MapIconArea16Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="15" Grid.Column="10" Name="MapIconArea16Value3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="16" Grid.Column="02" Name="MapIconArea17Value1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="16" Grid.Column="06" Name="MapIconArea17Value2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="16" Grid.Column="10" Name="MapIconArea17Value3" Padding="0,5" Margin="0,5"/>
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox Header="Small Monster Icons">
@@ -867,26 +873,26 @@
                                         <Label Grid.Row="2" Content="Small Monster Icon 3"/>
                                         <Label Grid.Row="3" Content="Small Monster Icon 4"/>
                                         <Label Grid.Row="4" Content="Small Monster Icon 5"/>
-                                        <ComboBox Grid.Row="0" Grid.Column="2" Name="SmlIcon1" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="1" Grid.Column="2" Name="SmlIcon2" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="SmlIcon3" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="3" Grid.Column="2" Name="SmlIcon4" Padding="0,5" Margin="0,5"/>
-                                        <ComboBox Grid.Row="4" Grid.Column="2" Name="SmlIcon5" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="0" Grid.Column="2" Name="SmallMonsterIcon1" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="1" Grid.Column="2" Name="SmallMonsterIcon2" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="2" Grid.Column="2" Name="SmallMonsterIcon3" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="3" Grid.Column="2" Name="SmallMonsterIcon4" Padding="0,5" Margin="0,5"/>
+                                        <ComboBox Grid.Row="4" Grid.Column="2" Name="SmallMonsterIcon5" Padding="0,5" Margin="0,5"/>
                                     </Grid>
                                 </GroupBox>
                             </StackPanel>
-                        </ScrollViewer> 
+                        </ScrollViewer>
                     </TabItem>
                     <TabItem Header="Arena">
                         <Grid HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width="150"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="150"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
@@ -897,15 +903,15 @@
                             <Label Grid.Row="1" Content="Rank A Timer (Seconds)"/>
                             <Label Grid.Row="2" Content="Rank B Timer (Seconds)"/>
                             <Label Grid.Row="3" Content="Rank C Timer (Seconds)"/>
-                            <CheckBox Grid.Row="4" Content="Fence Switch" Name="Fence" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Row="4" Content="Fence Switch" Name="ArenaFenceSwitchEnableFlag" VerticalAlignment="Center"/>
                             <Label Grid.Row="5" Content="Fence Cooldown" VerticalAlignment="Center"/>
                             <Label Grid.Row="6" Content="Fence Uptime" VerticalAlignment="Center"/>
-                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="0" Name="SetID"  Padding="0,5" Margin="0,5"/>
-                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="1" Name="RankA"  Padding="0,5" Margin="0,5"/>
-                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="2" Name="RankB"  Padding="0,5" Margin="0,5"/>
-                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name="RankC"  Padding="0,5" Margin="0,5"/>
-                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="5" Name="FenCD"  Padding="0,5" Margin="0,5"/>
-                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="6" Name="FenUT"  Padding="0,5" Margin="0,5"/>
+                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="0" Name="ArenaGearSetID"  Padding="0,5" Margin="0,5"/>
+                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="1" Name="ArenaRankATimerInSeconds"  Padding="0,5" Margin="0,5"/>
+                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="2" Name="ArenaRankBTimerInSeconds"  Padding="0,5" Margin="0,5"/>
+                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="3" Name="ArenaRankCTimerInSeconds"  Padding="0,5" Margin="0,5"/>
+                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="5" Name="ArenaFenceCooldownInMinutes"  Padding="0,5" Margin="0,5"/>
+                            <TextBox PreviewTextInput="NumberValidationTextBox" Grid.Column="2" Grid.Row="6" Name="ArenaFenceUptimeInMinutes"  Padding="0,5" Margin="0,5"/>
                         </Grid>
                     </TabItem>
                     <TabItem Name="UnkTab" IsEnabled="False" Header="Unknown">
@@ -997,7 +1003,7 @@
                                 <TextBox Grid.Row="08" Grid.Column="08" Name="UnknownValue26" PreviewTextInput="NumberValidationTextBox" LostFocus="MaxValueInspection" MaxLength="3"  Padding="0,5" Margin="0,5"/>
                             </Grid>
                         </StackPanel>
-                        
+
                     </TabItem>
                 </TabControl>
             </Border>

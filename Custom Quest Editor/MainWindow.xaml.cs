@@ -7,6 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Reflection;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 
 namespace Custom_Quest_Editor
 {
@@ -18,8 +21,8 @@ namespace Custom_Quest_Editor
 
         public UInt64 Inspectingint32 = 0;
         public Int16 Inspectingbyte = 0;
-        public Int32[] MapIDs = {100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 200, 201, 202, 203, 301, 302, 303, 305,306,307, 311, 400, 401, 403, 405, 406, 407, 408, 409,410,411,412,413,414, 415,416, 417, 501, 502, 503, 504, 505,506};
-        public Int32[] ForbiddenMapIDs = { 108, 109,203, 305, 306, 307, 311, 410, 411, 412, 413, 414, 415,416, 417, 506 };
+        public Int32[] MapIDs = { 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 200, 201, 202, 203, 301, 302, 303, 305, 306, 307, 311, 400, 401, 403, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 501, 502, 503, 504, 505, 506 };
+        public Int32[] ForbiddenMapIDs = { 108, 109, 203, 305, 306, 307, 311, 410, 411, 412, 413, 414, 415, 416, 417, 506 };
         public byte[] ObjectiveIDs = { 0x00, 0x01, 0x02, 0x11, 0x21, 0x31 };
         public byte[] QuestTypeIDs = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20 };
 
@@ -2800,13 +2803,20 @@ namespace Custom_Quest_Editor
 "Unavailable" ,
 "Unavailable"};
         public string[] MapNames = {"Infinity of Nothing" , "Ancient Forest" , "Wildspire Waste" , "Coral Highlands" ,
-            "Rotten Vale" , "Elder Recess" , "Great Ravine" , "Great Ravine (Story Map to Coral Highlands)" , "Hoarfrost Reach", "Guiding Lands", "Infinity of Nothing" ,
-            "Special Arena" , "Arena (Challenge)" ,"IB Arena (Seliana Supply Cache)",  "Astera" , "Gathering Hub (Astera)" , "Research Base" , "Seliana", "Gathering Hub (Seliana)", "307 Unconfirmed/To Be Tested","311 Unconfirmed/To Be Tested","Crashes game" , "Ancient Forest (Flooded / Intro)" ,
-            "Everstream" , "Confluence of Fates" , "Ancient Forest (Tutorial)" , "Infinity of Nothing" , "Debug Map" , "Caverns of El Dorado" , "Origin Isle (Cutscene)?","Seliana Supply Cache","Origin Isle (Ruiner Nerg Fight)","Origin Isle (Shara Fight)","Ancient Forest (Legiana Track Quest)",
-            "Secluded Valley","Alatreon's Stage","Castle Schrade","Living Quarters" , "Private Quarters" , "Private Suite" , "Training Camp" , "Chamber of Five","Seliana House" };
+            "Rotten Vale" , "Elder Recess" , "Great Ravine" , "Great Ravine (Story Map to Coral Highlands)" ,
+            "Hoarfrost Reach", "Guiding Lands", "Infinity of Nothing" ,
+            "Special Arena" , "Arena (Challenge)" ,"IB Arena (Seliana Supply Cache)",
+            "Astera" , "Gathering Hub (Astera)" , "Research Base" , "Seliana", "Gathering Hub (Seliana)",
+            "307 Unconfirmed/To Be Tested","311 Unconfirmed/To Be Tested","Crashes game" , "Ancient Forest (Flooded / Intro)" ,
+            "Everstream" , "Confluence of Fates" , "Ancient Forest (Tutorial)" , "Infinity of Nothing" ,
+            "Debug Map" , "Caverns of El Dorado" , "Origin Isle (Cutscene)?","Seliana Supply Cache","Origin Isle (Ruiner Nerg Fight)",
+            "Origin Isle (Shara Fight)","Ancient Forest (Legiana Track Quest)",
+            "Secluded Valley","Alatreon's Stage","Castle Schrade","Living Quarters" ,
+            "Private Quarters" , "Private Suite" , "Training Camp" , "Chamber of Five","Seliana House" };
+
         public string[] TimeList = {"Match universal", "Start late in the night", "Start at dawn", "Start early in the day",
             "Start at noon", "Start late in the day", "Start at dusk", "Start early in the night",
-            "Start at midnight", "Pause day/night cicle once the quest has been initiated"};
+            "Start at midnight", "Freeze at current time"};
         public string[] WeatherList = { "Random", "Disable Weather", "Always Weather A", "Always Weather B" };
         public string[] IconList = { "Anjanath" ,
 "Great Jagras" ,
@@ -2938,17 +2948,17 @@ namespace Custom_Quest_Editor
 "No Icon" };
         public string[] QuestTypeList = {"Hunting quest (Table spawn)","Slaying quest (Table spawn)","Capture quest (Table spawn)",
             "Delivery quest (Table spawn)","Hunting quest (Sequential spawn)","Special quest (Table spawn)"};
-        public string[] SeqSpawnRules = { "Force spawn", "?", "?", "Spawn if the map is empty", "?", "Retarded spawn", "Block spawn" };
+        public string[] SeqSpawnRules = { "Force spawn", "unknown 1", "unknown 2", "Spawn if the map is empty", "unknown 3", "Retarded spawn", "Block spawn" };
         public string[] ObjectiveList = { "None", "Multi monster quest", "Deliver", "Capture", "Slay", "Hunt" };
         public string[] HRRqlst = { "29", "30", "49", "50", "100" };
-        public string[] QCMusicList = { "Defualt", "Elder Dragon Clear", "Ridge Zorah Clear", "Kulve Taroth", "Final Fantasy", "Leshen", "Ancient Leshen", "AT nergigante", "Resident Evil", "09 unused?", "MR Kulve Taroth", "Alatreon (MHTri clear music)", "Fatalis" };
+        public string[] QCMusicList = { "Default", "Elder Dragon Clear", "Ridge Zorah Clear", "Kulve Taroth", "Final Fantasy", "Leshen", "Ancient Leshen", "AT nergigante", "Resident Evil", "09 unused?", "MR Kulve Taroth", "Alatreon (MHTri clear music)", "Fatalis" };
         #endregion
         #region Monster Stats Strings
         public string[] MonsterNames = { "None", "Anjanath" , "Rathalos" , "[s] Aptonoth" , "[s] Jagras" , "Zorah Magdaros" , "[s] Mosswine" , "[s] Gajau" , "Great Jagras" , "[s] Kestodon M" , "Rathian" , "Pink Rathian" , "Azure Rathalos" , "Diablos" ,
             "Black Diablos" , "Kirin" , "Behemoth" , "Kushala Daora" , "Lunastra" , "Teostra" , "Lavasioth" , "Deviljho" , "Barroth" , "Uragaan" , "Leshen" , "Pukei-Pukei" , "Nergigante" , "Xeno'Jiiva" , "Kulu-Ya-Ku" , "Tzitzi-Ya-Ku" ,
             "Jyuratodus" , "Tobi-Kadachi" , "Paolumu" , "Legiana" , "Great Girros" , "Odogaron" , "Radobaan" , "Vaal Hazak" , "Dodogama" , "Kulve Taroth" , "Bazelgeuse" , "[s] Apceros" , "[s] Kelbi M" , "[s[ Kelbi F" , "[s] Hornetaur" ,
             "[s] Vespoid" , "[s] Mernos" , "[s] Kestodon F" , "[s] Raphinos" , "[s] Shamos" , "[s] Barnos" , "[s] Girros" , "Ancient Leshen" , "[s] Gastodon" , "[s] Noios" , "[s] Magmacore 1" , "[s] Magmacore 2" , "[s] Gajalaka" ,
-            "[s] Small Barrel" , "[s] Large Barrel" , "[s] Training Pole" , "NON-VALID" , "Tigrex (IB)" , "Nargacuga (IB)" , "Barioth (IB)" , "Savage Deviljho (IB)" , "Brachydios (IB)" , "Glavenus (IB)" , "Acidic Glavenus (IB)" , 
+            "[s] Small Barrel" , "[s] Large Barrel" , "[s] Training Pole" , "NON-VALID" , "Tigrex (IB)" , "Nargacuga (IB)" , "Barioth (IB)" , "Savage Deviljho (IB)" , "Brachydios (IB)" , "Glavenus (IB)" , "Acidic Glavenus (IB)" ,
             "Fulgur Anjanath (IB)" , "Coral Pukei-Pukei (IB)" , "Ruiner Nergigante (IB)" , "Viper Tobi-Kadachi (IB)" , "Nightshade Paolumu (IB)" , "Shrieking Legiana (IB)" , "Ebody Odogaron (IB)" , "Blackveil Vaal Hazak (IB)" ,
             "Seething Bazelgeuse (IB)" , "Beotodus (IB)" , "Banbaro (IB)" , "Velkhana (IB)" , "Namielle (IB)" , "Shara Ishvalda (IB)" , "[s] Popo (IB)" , "[s] Anteka (IB)" , "[s] Wulg (IB)" , "[s] Cortos (IB)" , "[s] Boaboa (IB)" ,
             "Alatreon (IB)" , "Gold Rathian (IB)" , "Silver Rathalos (IB)" , "Yian Garuga (IB)" , "Rajang (IB)" , "Furious Rajang (IB)" , "Brute Tigrex (IB)" , "Zinogre (IB)" , "Stygian Zinogre (IB)" , "Raging Brachydios (IB)" , "Safi'Jiiva (IB)" , "[s] Wood Dummy (IB)" ,
@@ -5953,6 +5963,7 @@ namespace Custom_Quest_Editor
 "100%" ,
 "100%" ,
 "100%" };
+
         #endregion
         private Cipher cipher;
         public byte[] data;
@@ -5963,108 +5974,144 @@ namespace Custom_Quest_Editor
         public byte[] WriteData;
         public byte[] SaveAsData;
         private readonly string key = "TZNgJfzyD2WKiuV4SglmI6oN5jP2hhRJcBwzUooyfIUTM4ptDYGjuRTP";
+
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
+
+        #region  UI defnitions
+        public ComboBox[] MID; // Monster Ids (monster name dropdown/ tabs 1-7)
+        public TextBox[] MSobj;
+        public CheckBox[] Tempered;
+        public TextBox[] MonsterSize;
+        public ComboBox[] MHtP;
+        public ComboBox[] MAtk;
+        public ComboBox[] MDef;
+        public ComboBox[] MHAR;
+        public ComboBox[] MSeT;
+        public ComboBox[] MPHP;
+        public ComboBox[] MBSt;
+        public ComboBox[] MStB;
+        public ComboBox[] MBKO;
+        public ComboBox[] MBEx;
+        public ComboBox[] MBMo;
+        public ComboBox[] MSSpw;
+        public ComboBox[] MonIcons;
+        public ComboBox[] SmlMonIcons; // Small Monster Icons
+        public ComboBox[] MapIcons;
+
+        public TextBox[] SpawnText;
+        public TextBox[] ArenaText;
+
+        public TextBox[] UnknwonValues; // Unknown stuff
+        #endregion
+
+
         public MainWindow()
         {
+            Hide();
             InitializeComponent();
-          //  SpawnHelp.Text = "Help and Spawn Notes (mostly from NekotagaYuhatora's comments on the Template): " +
-          //      "First and foremost, the quest only uses one of the two options, the Sequential Spawn Rules or the Table Spawn Rules depending on Quest Type, which can be found in " +
-          //      "the Common Tab. You can basically ignore the other one or ideally zero all the values in it. The Global Spawn Delay, as the name indicates, is shared between the two. " +
-          //      "The Sequential Spawn Rules options are all self explanatory, even if some are not fully understood or explored. The Table Spawn Rules need a bit more explaining, however. " +
-          //      "The two deciders, for ";
-            ComboBox[] MID = { M1ID, M2ID, M3ID, M4ID, M5ID, M6ID, M7ID };
-            TextBox[] MSobj = { M1sobjID, M2sobjID, M3sobjID, M4sobjID, M5sobjID, M6sobjID, M7sobjID };
-            TextBox[] MonsterSize = { M1Siz, M2Siz, M3Siz, M4Siz, M5Siz, M6Siz, M7Siz };
-            ComboBox[] MHtP = { M1HtP, M2HtP, M3HtP, M4HtP, M5HtP, M6HtP, M7HtP };
-            ComboBox[] MAtk = { M1Atk, M2Atk, M3Atk, M4Atk, M5Atk, M6Atk, M7Atk };
-            ComboBox[] MDef = { M1Def, M2Def, M3Def, M4Def, M5Def, M6Def, M7Def };
-            ComboBox[] MHAR = { M1HAR, M2HAR, M3HAR, M4HAR, M5HAR, M6HAR, M7HAR };
-            ComboBox[] MSeT = { M1SeT, M2SeT, M3SeT, M4SeT, M5SeT, M6SeT, M7SeT };
-            ComboBox[] MPHP = { M1PHP, M2PHP, M3PHP, M4PHP, M5PHP, M6PHP, M7PHP };
-            ComboBox[] MBSt = { M1BSt, M2BSt, M3BSt, M4BSt, M5BSt, M6BSt, M7BSt };
-            ComboBox[] MStB = { M1StB, M2StB, M3StB, M4StB, M5StB, M6StB, M7StB };
-            ComboBox[] MBKO = { M1BKO, M2BKO, M3BKO, M4BKO, M5BKO, M6BKO, M7BKO };
-            ComboBox[] MBEx = { M1BEx, M2BEx, M3BEx, M4BEx, M5BEx, M6BEx, M7BEx };
-            ComboBox[] MBMo = { M1BMo, M2BMo, M3BMo, M4BMo, M5BMo, M6BMo, M7BMo };
-            ComboBox[] MSSpw = { M1SSpw, M2SSpw, M3SSpw, M4SSpw, M5SSpw };
-            ComboBox[] MonIcons = { Icon1, Icon2, Icon3, Icon4, Icon5 };
-            ComboBox[] SmlMonIcons = { SmlIcon1, SmlIcon2, SmlIcon3, SmlIcon4, SmlIcon5 };
-            ComboBox[] MapIcons = { MapIcon01, MapIcon02, MapIcon03, MapIcon04, MapIcon05,
-                MapIcon06, MapIcon07, MapIcon08, MapIcon09, MapIcon10, MapIcon11, MapIcon12,
-                MapIcon13, MapIcon14, MapIcon15, MapIcon16, MapIcon17, MapIcon18, MapIcon19,
-                MapIcon20, MapIcon21, MapIcon22, MapIcon23, MapIcon24, MapIcon25, MapIcon26,
-                MapIcon27, MapIcon28, MapIcon29, MapIcon30, MapIcon31, MapIcon32, MapIcon33,
-                MapIcon34, MapIcon35, MapIcon36, MapIcon37, MapIcon38, MapIcon39, MapIcon40,
-                MapIcon41, MapIcon42, MapIcon43, MapIcon44, MapIcon45, MapIcon46, MapIcon47,
-                MapIcon48, MapIcon49, MapIcon50, MapIcon51 };
-            TextBox[] UnknwonValues = { UnknownValue01, UnknownValue01, UnknownValue02, UnknownValue03,
+
+            //  SpawnHelp.Text = "Help and Spawn Notes (mostly from NekotagaYuhatora's comments on the Template): " +
+            //      "First and foremost, the quest only uses one of the two options, the Sequential Spawn Rules or the Table Spawn Rules depending on Quest Type, which can be found in " +
+            //      "the Common Tab. You can basically ignore the other one or ideally zero all the values in it. The Global Spawn Delay, as the name indicates, is shared between the two. " +
+            //      "The Sequential Spawn Rules options are all self explanatory, even if some are not fully understood or explored. The Table Spawn Rules need a bit more explaining, however. " +
+            //      "The two deciders, for ";
+            MID = new ComboBox[] { Monster1ID, Monster2ID, Monster3ID, Monster4ID, Monster5ID, Monster6ID, Monster7ID };
+            MSobj = new TextBox[] { Monster1SobjID, Monster2SobjID, Monster3SobjID, Monster4SobjID, Monster5SobjID, Monster6SobjID, Monster7SobjID };
+            Tempered = new CheckBox[] { Monster1ArchTemperedFlag, Monster2ArchTemperedFlag, Monster3ArchTemperedFlag, Monster4ArchTemperedFlag, Monster5ArchTemperedFlag, Monster6ArchTemperedFlag, Monster7ArchTemperedFlag };
+            MonsterSize = new TextBox[] { Monster1SizePct, Monster2SizePct, Monster3SizePct, Monster4SizePct, Monster5SizePct, Monster6SizePct, Monster7SizePct };
+            MHtP = new ComboBox[] { Monster1HealthPct, Monster2HealthPct, Monster3HealthPct, Monster4HealthPct, Monster5HealthPct, Monster6HealthPct, Monster7HealthPct };
+            MAtk = new ComboBox[] { Monster1AttackPct, Monster2AttackPct, Monster3AttackPct, Monster4AttackPct, Monster5AttackPct, Monster6AttackPct, Monster7AttackPct };
+            MDef = new ComboBox[] { Monster1DefensePct, Monster2DefensePct, Monster3DefensePct, Monster4DefensePct, Monster5DefensePct, Monster6DefensePct, Monster7DefensePct };
+            MHAR = new ComboBox[] { Monster1HPAttackRoll, Monster2HPAttackRoll, Monster3HPAttackRoll, Monster4HPAttackRoll, Monster5HPAttackRoll, Monster6HPAttackRoll, Monster7HPAttackRoll };
+            MSeT = new ComboBox[] { Monster1SizeTable, Monster2SizeTable, Monster3SizeTable, Monster4SizeTable, Monster5SizeTable, Monster6SizeTable, Monster7SizeTable };
+            MPHP = new ComboBox[] { Monster1PartHPPct, Monster2PartHPPct, Monster3PartHPPct, Monster4PartHPPct, Monster5PartHPPct, Monster6PartHPPct, Monster7PartHPPct };
+            MBSt = new ComboBox[] { Monster1BaseStatusResistPct, Monster2BaseStatusResistPct, Monster3BaseStatusResistPct, Monster4BaseStatusResistPct, Monster5BaseStatusResistPct, Monster6BaseStatusResistPct, Monster7BaseStatusResistPct };
+            MStB = new ComboBox[] { Monster1StatusBuildupPct, Monster2StatusBuildupPct, Monster3StatusBuildupPct, Monster4StatusBuildupPct, Monster5StatusBuildupPct, Monster6StatusBuildupPct, Monster7StatusBuildupPct };
+            MBKO = new ComboBox[] { Monster1BaseStunPct, Monster2BaseStunPct, Monster3BaseStunPct, Monster4BaseStunPct, Monster5BaseStunPct, Monster6BaseStunPct, Monster7BaseStunPct };
+            MBEx = new ComboBox[] { Monster1BaseExhaustPct, Monster2BaseExhaustPct, Monster3BaseExhaustPct, Monster4BaseExhaustPct, Monster5BaseExhaustPct, Monster6BaseExhaustPct, Monster7BaseExhaustPct };
+            MBMo = new ComboBox[] { Monster1BaseMountPct, Monster2BaseMountPct, Monster3BaseMountPct, Monster4BaseMountPct, Monster5BaseMountPct, Monster6BaseMountPct, Monster7BaseMountPct };
+            MSSpw = new ComboBox[] { Monster1SequentialSpawnRules, Monster2SequentialSpawnRules, Monster3SequentialSpawnRules, Monster4SequentialSpawnRules, Monster5SequentialSpawnRules };
+            MonIcons = new ComboBox[] { QuestObjectiveIcon1, QuestObjectiveIcon2, QuestObjectiveIcon3, QuestObjectiveIcon4, QuestObjectiveIcon5 };
+            SmlMonIcons = new ComboBox[] { SmallMonsterIcon1, SmallMonsterIcon2, SmallMonsterIcon3, SmallMonsterIcon4, SmallMonsterIcon5 };
+            MapIcons = new ComboBox[]{ MapIconArea01Value1, MapIconArea01Value2, MapIconArea01Value3, MapIconArea02Value1, MapIconArea02Value2,
+                MapIconArea02Value3, MapIconArea03Value1, MapIconArea03Value2, MapIconArea03Value3, MapIconArea04Value1, MapIconArea04Value2, MapIconArea04Value3,
+                MapIconArea05Value1, MapIconArea05Value2, MapIconArea05Value3, MapIconArea06Value1, MapIconArea06Value2, MapIconArea06Value3, MapIconArea07Value1,
+                MapIconArea07Value2, MapIconArea07Value3, MapIconArea08Value1, MapIconArea08Value2, MapIconArea08Value3, MapIconArea09Value1, MapIconArea09Value2,
+                MapIconArea09Value3, MapIconArea10Value1, MapIconArea10Value2, MapIconArea10Value3, MapIconArea11Value1, MapIconArea11Value2, MapIconArea11Value3,
+                MapIconArea12Value1, MapIconArea12Value2, MapIconArea12Value3, MapIconArea13Value1, MapIconArea13Value2, MapIconArea13Value3, MapIconArea14Value1,
+                MapIconArea14Value2, MapIconArea14Value3, MapIconArea15Value1, MapIconArea15Value2, MapIconArea15Value3, MapIconArea16Value1, MapIconArea16Value2,
+                MapIconArea16Value3, MapIconArea17Value1, MapIconArea17Value2, MapIconArea17Value3 };
+            SpawnText = new TextBox[] { Monster6SpawnPercentChance, MonsterSpawnGlobalDelayInMinutes, Monster7SpawnPercentChance, Monster3SpawnPercentChance, Monster4SpawnPercentChance, Monster5SpawnPercentChance, Monster6SpawnDecider, Monster7SpawnDecider };
+            ArenaText = new TextBox[] { ArenaRankATimerInSeconds, ArenaRankBTimerInSeconds, ArenaRankCTimerInSeconds, ArenaFenceCooldownInMinutes, ArenaFenceUptimeInMinutes };
+            UnknwonValues = new TextBox[]{ UnknownValue01, UnknownValue01, UnknownValue02, UnknownValue03,
                 UnknownValue04, UnknownValue05, UnknownValue06, UnknownValue07, UnknownValue08, UnknownValue09,
                 UnknownValue10, UnknownValue11, UnknownValue12, UnknownValue13, UnknownValue14, UnknownValue15,
                 UnknownValue16, UnknownValue17, UnknownValue18, UnknownValue19, UnknownValue20, UnknownValue21,
                 UnknownValue22, UnknownValue23, UnknownValue24, UnknownValue25, UnknownValue26 };
             #region Common and objective
+
             for (int i = 0; i < 11; i++)
-                Stars.Items.Add(i.ToString() + "*");
+                QuestStars.Items.Add(i.ToString() + "*");
             for (int i = 1; i < 7; i++)
-                Stars.Items.Add("MR " + i.ToString() + "*");
-            Rank.Items.Add("Low Rank");
-            Rank.Items.Add("High Rank");
-            Rank.Items.Add("Master Rank");
+                QuestStars.Items.Add("MR " + i.ToString() + "*");
+            QuestRank.Items.Add("Low Rank");
+            QuestRank.Items.Add("High Rank");
+            QuestRank.Items.Add("Master Rank");
             for (int i = 0; i < MapNames.Length; i++)
-                Map.Items.Add(MapNames[i]);
-            PSpawn.Items.Add("Forced (Camp 1)");
-            PSpawn.Items.Add("Choose (With Drunk Bird)");
-            PSpawn.Items.Add("Choose (No Drunk Bird)");
+                QuestMap.Items.Add(MapNames[i]);
+            QuestPlayerSpawnLocation.Items.Add("Forced (Camp 1)");
+            QuestPlayerSpawnLocation.Items.Add("Choose (With Drunk Bird)");
+            QuestPlayerSpawnLocation.Items.Add("Choose (No Drunk Bird)");
             for (int i = 0; i < TimeList.Length; i++)
-                Time.Items.Add(TimeList[i]);
+                TimeCycle.Items.Add(TimeList[i]);
             for (int i = TimeList.Length; i < 256; i++)
-                Time.Items.Add("Placeholder Value " + i.ToString());
+                TimeCycle.Items.Add("Placeholder Value " + i.ToString());
             for (int i = 0; i < WeatherList.Length; i++)
-                Weather.Items.Add(WeatherList[i]);
+                WeatherCondition.Items.Add(WeatherList[i]);
             for (int i = WeatherList.Length; i < 256; i++)
-                Weather.Items.Add("Placeholder Value " + i.ToString());
-            HRReq.Items.Add("None");
+                WeatherCondition.Items.Add("Placeholder Value " + i.ToString());
+            QuestHunterHankRequirements.Items.Add("None");
             for (int i = 1; i < 17; i++)
-                HRReq.Items.Add("HR " + i.ToString());
+                QuestHunterHankRequirements.Items.Add("HR " + i.ToString());
             for (int i = 0; i < HRRqlst.Length; i++)
-                HRReq.Items.Add("HR " + HRRqlst[i]);
+                QuestHunterHankRequirements.Items.Add("HR " + HRRqlst[i]);
             for (int i = 1; i < 25; i++)
-                HRReq.Items.Add("MR " + i.ToString());
+                QuestHunterHankRequirements.Items.Add("MR " + i.ToString());
             for (int i = 1; i < 26; i++)
-                HRReq.Items.Add("Placeholder "+i.ToString());
+                QuestHunterHankRequirements.Items.Add("Placeholder " + i.ToString());
             for (int i = 0; i < 3; i++)
-                BGM.Items.Add(i.ToString() + " Default");
-            BGM.Items.Add("None/Khezu Theme?");
-            BGM.Items.Add("Extreme Behemoth?");
+                QuestBackgroundMusic.Items.Add(i.ToString() + " Default");
+            QuestBackgroundMusic.Items.Add("None/Khezu Theme?");
+            QuestBackgroundMusic.Items.Add("Extreme Behemoth?");
             for (int i = 5; i < 21; i++)
-                BGM.Items.Add(i.ToString() + " Default?");
-            BGM.Items.Add("A Rush of Blood/MM music");
-            BGM.Items.Add("Ryu Theme");
-            BGM.Items.Add("Sakura Theme");
-            BGM.Items.Add("Code:Red/DMC Music");
+                QuestBackgroundMusic.Items.Add(i.ToString() + " Default?");
+            QuestBackgroundMusic.Items.Add("A Rush of Blood/MM music");
+            QuestBackgroundMusic.Items.Add("Ryu Theme");
+            QuestBackgroundMusic.Items.Add("Sakura Theme");
+            QuestBackgroundMusic.Items.Add("Code:Red/DMC Music");
             for (int i = 25; i < 33; i++)
-                BGM.Items.Add(i.ToString() + " Default?");
-            BGM.Items.Add("Best of the Best");
+                QuestBackgroundMusic.Items.Add(i.ToString() + " Default?");
+            QuestBackgroundMusic.Items.Add("Best of the Best");
             for (int i = 34; i < 256; i++)
-                BGM.Items.Add(i.ToString() + " Default?");
+                QuestBackgroundMusic.Items.Add(i.ToString() + " Default?");
             for (int i = 0; i < QCMusicList.Length; i++)
-                QCMusic.Items.Add(QCMusicList[i]);
-            for (int i = 1; i < (256-QCMusicList.Length); i++)
-                QCMusic.Items.Add("Placeholder " + i.ToString());
+                QuestClearMusic.Items.Add(QCMusicList[i]);
+            for (int i = 1; i < (256 - QCMusicList.Length); i++)
+                QuestClearMusic.Items.Add("Placeholder " + i.ToString());
             for (int i = 0; i < MonIcons.Length; i++)
                 for (int j = 0; j < IconList.Length; j++)
                     MonIcons[i].Items.Add(IconList[j]);
             for (int i = 0; i < QuestTypeList.Length; i++)
-                QType.Items.Add(QuestTypeList[i]);
+                QuestType.Items.Add(QuestTypeList[i]);
             for (int i = 1; i < 5; i++)
-                NPlayers.Items.Add(i.ToString());
+                QuestNumberOfPlayers.Items.Add(i.ToString());
             for (int i = 0; i < ObjectiveList.Length; i++)
             {
-                MObjT1.Items.Add(ObjectiveList[i]);
-                MObjT2.Items.Add(ObjectiveList[i]);
-                SObjT1.Items.Add(ObjectiveList[i]);
-                SObjT2.Items.Add(ObjectiveList[i]);
+                MainObjective1Type.Items.Add(ObjectiveList[i]);
+                MainObjective2Type.Items.Add(ObjectiveList[i]);
+                SubObjective1Type.Items.Add(ObjectiveList[i]);
+                SubObjective2Type.Items.Add(ObjectiveList[i]);
             }
             #endregion
             #region Monsters, Spawn, and Map Icons
@@ -6113,9 +6160,9 @@ namespace Custom_Quest_Editor
             br.Close();
             for (int j = 0; j < 1000; j++)
             {
-                sMHP.Items.Add(SmollMonHP[j]);
-                sMAt.Items.Add(SmollMonAt[j]);
-                sMDe.Items.Add(SmollMonEt[j]);
+                SmallMonstersHealthPct.Items.Add(SmollMonHP[j]);
+                SmallMonstersAttackPct.Items.Add(SmollMonAt[j]);
+                SmallMonstersKOStatusDefensePct.Items.Add(SmollMonEt[j]);
             }
             for (int i = 0; i < 5; i++)
                 for (int j = 0; j < SeqSpawnRules.Length; j++)
@@ -6130,145 +6177,316 @@ namespace Custom_Quest_Editor
                 for (int j = 0; j < 255; j++)
                     MapIcons[i].Items.Add("Unknown #" + j.ToString());
             #endregion
+
+            string[] args = Environment.GetCommandLineArgs();
+            System.Diagnostics.Debug.WriteLine(String.Join(" ", args));
+            System.Diagnostics.Debug.WriteLine(args.Length);
+            if (args.Length > 1) // skip first
+            {
+                // in CliStuff.cs
+                HandleConsole(args);
             }
+            else
+            {
+                Show();
+            }
+        }
+
+
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             cipher = new Cipher(key);
             ofd.Filter = "MHW Quest File|*.mib";
-            if (ofd.ShowDialog() == true)
+            if ((bool)ofd.ShowDialog())
             {
                 SaveM.IsEnabled = true;
                 SaveAs.IsEnabled = true;
+                Import.IsEnabled = true;
+                Export.IsEnabled = true;
+                InitializeComponent();
+                loadData(ofd.FileName);
             }
-            else return;
-            #region Defenitions
-            ComboBox[] MID = { M1ID, M2ID, M3ID, M4ID, M5ID, M6ID, M7ID };
-            TextBox[] MSobj = { M1sobjID, M2sobjID, M3sobjID, M4sobjID, M5sobjID, M6sobjID, M7sobjID };
-            CheckBox[] Tempered = { M1TFlag, M2TFlag, M3TFlag, M4TFlag, M5TFlag, M6TFlag, M7TFlag };
-            TextBox[] MonsterSize = { M1Siz, M2Siz, M3Siz, M4Siz, M5Siz, M6Siz, M7Siz };
-            ComboBox[] MHtP = { M1HtP, M2HtP, M3HtP, M4HtP, M5HtP, M6HtP, M7HtP };
-            ComboBox[] MAtk = { M1Atk, M2Atk, M3Atk, M4Atk, M5Atk, M6Atk, M7Atk };
-            ComboBox[] MDef = { M1Def, M2Def, M3Def, M4Def, M5Def, M6Def, M7Def };
-            ComboBox[] MHAR = { M1HAR, M2HAR, M3HAR, M4HAR, M5HAR, M6HAR, M7HAR };
-            ComboBox[] MSeT = { M1SeT, M2SeT, M3SeT, M4SeT, M5SeT, M6SeT, M7SeT };
-            ComboBox[] MPHP = { M1PHP, M2PHP, M3PHP, M4PHP, M5PHP, M6PHP, M7PHP };
-            ComboBox[] MBSt = { M1BSt, M2BSt, M3BSt, M4BSt, M5BSt, M6BSt, M7BSt };
-            ComboBox[] MStB = { M1StB, M2StB, M3StB, M4StB, M5StB, M6StB, M7StB };
-            ComboBox[] MBKO = { M1BKO, M2BKO, M3BKO, M4BKO, M5BKO, M6BKO, M7BKO };
-            ComboBox[] MBEx = { M1BEx, M2BEx, M3BEx, M4BEx, M5BEx, M6BEx, M7BEx };
-            ComboBox[] MBMo = { M1BMo, M2BMo, M3BMo, M4BMo, M5BMo, M6BMo, M7BMo };
-            ComboBox[] MSSpw = { M1SSpw, M2SSpw, M3SSpw, M4SSpw, M5SSpw };
-            ComboBox[] MonIcons = { Icon1, Icon2, Icon3, Icon4, Icon5 };
-            ComboBox[] SmlMonIcons = { SmlIcon1, SmlIcon2, SmlIcon3, SmlIcon4, SmlIcon5 };
-            ComboBox[] MapIcons = { MapIcon01, MapIcon02, MapIcon03, MapIcon04, MapIcon05,
-                MapIcon06, MapIcon07, MapIcon08, MapIcon09, MapIcon10, MapIcon11, MapIcon12,
-                MapIcon13, MapIcon14, MapIcon15, MapIcon16, MapIcon17, MapIcon18, MapIcon19,
-                MapIcon20, MapIcon21, MapIcon22, MapIcon23, MapIcon24, MapIcon25, MapIcon26,
-                MapIcon27, MapIcon28, MapIcon29, MapIcon30, MapIcon31, MapIcon32, MapIcon33,
-                MapIcon34, MapIcon35, MapIcon36, MapIcon37, MapIcon38, MapIcon39, MapIcon40,
-                MapIcon41, MapIcon42, MapIcon43, MapIcon44, MapIcon45, MapIcon46, MapIcon47,
-                MapIcon48, MapIcon49, MapIcon50, MapIcon51 };
-            TextBox[] SpawnText = { M6SpC, SpawnDelay, M7SpC, M3SpC, M4SpC, M5SpC, M6SpD, M7SpD };
-            TextBox[] ArenaText = { RankA, RankB, RankC, FenCD, FenUT };
+
+        }
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            // resave to same file.
+            saveData(ofd.FileName);
+        }
+        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+
+            sfd.Filter = "MHW Quest File|*.mib";
+
+            sfd.FileName = GetAutogeneratedFileName("mib");
+
+            if ((bool)sfd.ShowDialog())
+            {
+                saveData(ofd.FileName, sfd.FileName);
+            }
+
+
+        }
+        private string GetAutogeneratedFileName(string ext)
+        {
+            return "questData_" + QuestID.Text.PadLeft(5, '0') + "." + ext;
+        }
+
+        private void QuestPlayerSpawnLocationChanged(object sender, RoutedEventArgs e)
+        {
+            //if (QuestPlayerSpawnLocation.SelectedIndex == 0)
+            //    FixedSpawnFlag.IsChecked = true;
+            //else
+            //    FixedSpawnFlag.IsChecked = false;
+        }
+        private void FixedSpawnChanged(object sender, RoutedEventArgs e)
+        {
+            // if (FixedSpawnFlag.IsChecked == true)
+            //     QuestPlayerSpawnLocation.SelectedIndex = 0;
+            // else if (QuestPlayerSpawnLocation.SelectedIndex == 0)
+            //     QuestPlayerSpawnLocation.SelectedIndex = 1;
+        }
+        private void MultiO_Checked(object sender, RoutedEventArgs e)
+        {
+            if (MultiO.IsChecked == true)
+                MObj2.IsEnabled = true;
+            else if (MultiO.IsChecked == false)
+                MObj2.IsEnabled = false;
+        }
+        private void MainObjective1Type_Changed(object sender, RoutedEventArgs e)
+        {
+            MainObjective1ID.Items.Clear();
+            if (MainObjective1Type.SelectedIndex == 2)
+                for (int i = 0; i < Items.Length; i++)
+                    MainObjective1ID.Items.Add(Items[i]);
+            else
+                for (int i = 1; i < MonsterNames.Length; i++)
+                    MainObjective1ID.Items.Add(MonsterNames[i]);
+            MainObjective1ID.SelectedIndex = 0;
+        }
+        private void MainObjective2Type_Changed(object sender, RoutedEventArgs e)
+        {
+
+            MainObjective2ID.Items.Clear();
+            if (MainObjective2Type.SelectedIndex == 2)
+                for (int i = 0; i < Items.Length; i++)
+                    MainObjective2ID.Items.Add(Items[i]);
+            else
+                for (int i = 1; i < MonsterNames.Length; i++)
+                    MainObjective2ID.Items.Add(MonsterNames[i]);
+            MainObjective2ID.SelectedIndex = 0;
+        }
+        private void SubObjective1Type_Changed(object sender, RoutedEventArgs e)
+        {
+            SubObjective1ID.Items.Clear();
+            if (SubObjective1Type.SelectedIndex == 2)
+                for (int i = 0; i < Items.Length; i++)
+                    SubObjective1ID.Items.Add(Items[i]);
+            else
+                for (int i = 1; i < MonsterNames.Length; i++)
+                    SubObjective1ID.Items.Add(MonsterNames[i]);
+            SubObjective1ID.SelectedIndex = 0;
+        }
+        private void SubObjective2Type_Changed(object sender, RoutedEventArgs e)
+        {
+
+            SubObjective2ID.Items.Clear();
+            if (SubObjective2Type.SelectedIndex == 2)
+                for (int i = 0; i < Items.Length; i++)
+                    SubObjective2ID.Items.Add(Items[i]);
+            else
+                for (int i = 1; i < MonsterNames.Length; i++)
+                    SubObjective2ID.Items.Add(MonsterNames[i]);
+            SubObjective2ID.SelectedIndex = 0;
+        }
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("This tool was made by Aradi147. " +
+                "\nModified by Ketwaroo D. Yaasir for CLI and import/export" +
+                "\nCredits go to Asterisk, Vuze, Zindea, NekotagaYuhatora, Material, hexhexhex, TITAN" +
+                "\nJunkBunny, Fandirus, Mace ya face,Bedtime, kkkkyue,eliottbw, Miralis, Silvris, Dave uRrr and everyone that worked on" +
+                "\ndocumenting the MIB file. I don't really even know half of them.");
+        }
+        private void Contact_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("To contact me and other modders, please vist \n https://discord.gg/gJwMdhK");
+        }
+        private void QuestRankSelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+            if (QuestRank.SelectedIndex == 2)
+            {
+                if (QuestStars.SelectedIndex < 11)
+                    QuestStars.SelectedIndex = 11;
+            }
+            if (QuestStars.SelectedIndex > 10)
+                if (QuestHunterHankRequirements.SelectedIndex < 22)
+                    QuestHunterHankRequirements.SelectedIndex = 22;
+        }
+        private void UnknownsChecked(object sender, RoutedEventArgs e)
+        {
+            UnkTab.IsEnabled = true;
+        }
+        private void UnkownsUnchecked(object sender, RoutedEventArgs e)
+        {
+            UnkTab.IsEnabled = false;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+
+        }
+        private void MaxValueInspection(object sender, RoutedEventArgs e)
+        {
             TextBox[] UnknwonValues = { UnknownValue01, UnknownValue01, UnknownValue02, UnknownValue03,
                 UnknownValue04, UnknownValue05, UnknownValue06, UnknownValue07, UnknownValue08, UnknownValue09,
                 UnknownValue10, UnknownValue11, UnknownValue12, UnknownValue13, UnknownValue14, UnknownValue15,
                 UnknownValue16, UnknownValue17, UnknownValue18, UnknownValue19, UnknownValue20, UnknownValue21,
                 UnknownValue22, UnknownValue23, UnknownValue24, UnknownValue25, UnknownValue26 };
-            #endregion
+            for (int i = 0; i < 23; i++)
+            {
+                Inspectingint32 = Convert.ToUInt64(UnknwonValues[i].Text);
+                if (Inspectingint32 > 4294967295)
+                    UnknwonValues[i].Text = 4294967295.ToString();
+            }
+            for (int i = 23; i < 27; i++)
+            {
+                Inspectingbyte = Convert.ToInt16(UnknwonValues[i].Text);
+                if (Inspectingbyte > 255)
+                    UnknwonValues[i].Text = 255.ToString();
+            }
+        }
+
+
+        private void Import_Click(object sender, RoutedEventArgs e)
+        {
+
+            OpenFileDialog importFileDialog = new OpenFileDialog();
+
+            importFileDialog.Filter = "JSON file |*.json";
+            if ((bool)importFileDialog.ShowDialog())
+            {
+                ImportData(importFileDialog.FileName);
+            }
+
+        }
+
+        private void Export_Click(object sender, RoutedEventArgs e)
+        {
+
+            SaveFileDialog exportFileDialog = new SaveFileDialog();
+
+            exportFileDialog.Filter = "JSON file |*.json";
+            exportFileDialog.FileName = GetAutogeneratedFileName("json");
+
+            if ((bool)exportFileDialog.ShowDialog())
+            {
+                ExportData(exportFileDialog.FileName);
+            }
+        }
+
+        public void loadData(string filename)
+        {
+            cipher = new Cipher(key);
             data = null;
             //data2 = null;
-            data = (File.ReadAllBytes(ofd.FileName));
+            data = File.ReadAllBytes(filename);
             ReadData = cipher.Decipher(data);
             for (int i = 4; i < ReadData.Length; i++)
-                data2[i - 4] = ReadData[i]; 
+                data2[i - 4] = ReadData[i];
             Int32 RV = 0;
             #region Common and Objectives
-            QID.Text = BitConverter.ToInt32(new byte[] { data2[6], data2[7], data2[8], data2[9] }, 0).ToString();
-            Stars.SelectedIndex = data2[10];
-            Rank.SelectedIndex = data2[19];
+            QuestID.Text = BitConverter.ToInt32(new byte[] { data2[6], data2[7], data2[8], data2[9] }, 0).ToString();
+            QuestStars.SelectedIndex = data2[10];
+            QuestRank.SelectedIndex = data2[19];
             RV = BitConverter.ToInt32(new byte[] { data2[23], data2[24], data2[25], data2[26] }, 0);
             for (int i = 0; i < MapIDs.Length; i++)
                 if (RV == MapIDs[i])
-                    Map.SelectedIndex = i;
-            PSpawn.SelectedIndex = data2[27];
+                    QuestMap.SelectedIndex = i;
+            QuestPlayerSpawnLocation.SelectedIndex = data2[27];
             if (data2[31] == 0)
-                FSpawn.IsChecked = true;
-            else FSpawn.IsChecked = false;
-            Time.SelectedIndex = data2[39];
-            Weather.SelectedIndex = data2[43];
-            Reward.Text = BitConverter.ToUInt32(new byte[] { data2[51], data2[52], data2[53], data2[54] }, 0).ToString();
-            Penalty.Text = BitConverter.ToUInt32(new byte[] { data2[55], data2[56], data2[57], data2[58] }, 0).ToString();
+                FixedSpawnFlag.IsChecked = true;
+            else FixedSpawnFlag.IsChecked = false;
+            TimeCycle.SelectedIndex = data2[39];
+            WeatherCondition.SelectedIndex = data2[43];
+            QuestRewardMoney.Text = BitConverter.ToUInt32(new byte[] { data2[51], data2[52], data2[53], data2[54] }, 0).ToString();
+            QuestFaintPenalty.Text = BitConverter.ToUInt32(new byte[] { data2[55], data2[56], data2[57], data2[58] }, 0).ToString();
             //SReward.Text = BitConverter.ToUInt32(new byte[] { data2[59], data2[60], data2[61], data2[62] }, 0).ToString();
-            Timer.Text = BitConverter.ToUInt32(new byte[] { data2[63], data2[64], data2[65], data2[66] }, 0).ToString();
+            QuestTimer.Text = BitConverter.ToUInt32(new byte[] { data2[63], data2[64], data2[65], data2[66] }, 0).ToString();
             for (int i = 0; i < 5; i++)
                 MonIcons[i].SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[68 + 2 * i], data2[69 + 2 * i] }, 0);
-            HRReq.SelectedIndex = data2[78];
+            QuestHunterHankRequirements.SelectedIndex = data2[78];
             for (int i = 0; i < ObjectiveIDs.Length; i++)
                 if (data2[83] == ObjectiveIDs[i])
-                    MObjT1.SelectedIndex = i;
+                    MainObjective1Type.SelectedIndex = i;
             if (data2[84] == 04)
-                MObj1MM.IsChecked = true;
-            else MObj1MM.IsChecked = false;
-            MObjID1.SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[87], data2[88] }, 0);
-            MObjC1.Text = BitConverter.ToUInt16(new byte[] { data2[89], data2[90] }, 0).ToString();
+                MainObjective1MultiMonsterFlag.IsChecked = true;
+            else MainObjective1MultiMonsterFlag.IsChecked = false;
+            MainObjective1ID.SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[87], data2[88] }, 0);
+            MainObjective1Amount.Text = BitConverter.ToUInt16(new byte[] { data2[89], data2[90] }, 0).ToString();
             for (int i = 0; i < ObjectiveIDs.Length; i++)
                 if (data2[91] == ObjectiveIDs[i])
-                    MObjT2.SelectedIndex = i;
+                    MainObjective2Type.SelectedIndex = i;
             if (data2[92] == 04)
-                MObj2MM.IsChecked = true;
-            else MObj2MM.IsChecked = false;
-            MObjID2.SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[95], data2[96] }, 0);
-            MObjC2.Text = BitConverter.ToUInt16(new byte[] { data2[97], data2[98] }, 0).ToString();
+                MainObjective2MultiMonsterFlag.IsChecked = true;
+            else MainObjective2MultiMonsterFlag.IsChecked = false;
+            MainObjective2ID.SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[95], data2[96] }, 0);
+            MainObjective2Amount.Text = BitConverter.ToUInt16(new byte[] { data2[97], data2[98] }, 0).ToString();
             if (data2[99] == 1)
                 MultiO.IsChecked = false;
             else MultiO.IsChecked = true;
             for (int i = 0; i < ObjectiveIDs.Length; i++)
                 if (data2[100] == ObjectiveIDs[i])
-                    SObjT1.SelectedIndex = i;
+                    SubObjective1Type.SelectedIndex = i;
             if (data2[101] == 04)
-                SObj1MM.IsChecked = true;
-            else SObj1MM.IsChecked = false;
-            SObjID1.SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[104], data2[105] }, 0);
-            SObjC1.Text = BitConverter.ToUInt16(new byte[] { data2[106], data2[107] }, 0).ToString();
+                SubObjective1MultiMonsterFlag.IsChecked = true;
+            else SubObjective1MultiMonsterFlag.IsChecked = false;
+            SubObjective1ID.SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[104], data2[105] }, 0);
+            SubObjective1Amount.Text = BitConverter.ToUInt16(new byte[] { data2[106], data2[107] }, 0).ToString();
             for (int i = 0; i < ObjectiveIDs.Length; i++)
                 if (data2[108] == ObjectiveIDs[i])
-                    SObjT2.SelectedIndex = i;
+                    SubObjective2Type.SelectedIndex = i;
             if (data2[109] == 04)
-                SObj2MM.IsChecked = true;
-            else SObj2MM.IsChecked = false;
-            SObjID2.SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[112], data2[113] }, 0);
-            SObjC2.Text = BitConverter.ToUInt16(new byte[] { data2[114], data2[115] }, 0).ToString();
-            BGM.SelectedIndex = data2[120];
-            QCMusic.SelectedIndex = data2[124];
+                SubObjective2MultiMonsterFlag.IsChecked = true;
+            else SubObjective2MultiMonsterFlag.IsChecked = false;
+            SubObjective2ID.SelectedIndex = BitConverter.ToUInt16(new byte[] { data2[112], data2[113] }, 0);
+            SubObjective2Amount.Text = BitConverter.ToUInt16(new byte[] { data2[114], data2[115] }, 0).ToString();
+            QuestBackgroundMusic.SelectedIndex = data2[120];
+            QuestClearMusic.SelectedIndex = data2[124];
             for (int i = 0; i < QuestTypeIDs.Length; i++)
                 if (data2[128] == QuestTypeIDs[i])
-                    QType.SelectedIndex = i;
+                    QuestType.SelectedIndex = i;
             if (data2[130] == 0)
             {
-                ATFlag.IsChecked = false;
-                PSGear.IsChecked = false;
+                QuestArchTemperedFlag.IsChecked = false;
+                QuestPreSelectedGearFlag.IsChecked = false;
             }
             if (data2[130] == 1)
             {
-                ATFlag.IsChecked = false;
-                PSGear.IsChecked = true;
+                QuestArchTemperedFlag.IsChecked = false;
+                QuestPreSelectedGearFlag.IsChecked = true;
             }
             if (data2[130] == 2)
             {
-                ATFlag.IsChecked = true;
-                PSGear.IsChecked = false;
+                QuestArchTemperedFlag.IsChecked = true;
+                QuestPreSelectedGearFlag.IsChecked = false;
             }
             if (data2[130] == 3)
             {
-                ATFlag.IsChecked = true;
-                PSGear.IsChecked = true;
+                QuestArchTemperedFlag.IsChecked = true;
+                QuestPreSelectedGearFlag.IsChecked = true;
             }
-            RRemID.Text = BitConverter.ToUInt32(new byte[] { data2[132], data2[133], data2[134], data2[135] }, 0).ToString();
-            S1RRemID.Text = BitConverter.ToUInt32(new byte[] { data2[136], data2[137], data2[138], data2[139] }, 0).ToString();
-            S2RRemID.Text = BitConverter.ToUInt32(new byte[] { data2[140], data2[141], data2[142], data2[143] }, 0).ToString();
-            SRemID.Text = BitConverter.ToUInt32(new byte[] { data2[144], data2[145], data2[146], data2[147] }, 0).ToString();
-            HRpoint.Text = BitConverter.ToUInt32(new byte[] { data2[160], data2[161], data2[162], data2[163] }, 0).ToString();
+            QuestItemRewardsRemID.Text = BitConverter.ToUInt32(new byte[] { data2[132], data2[133], data2[134], data2[135] }, 0).ToString();
+            QuestSub1RewardsRemID.Text = BitConverter.ToUInt32(new byte[] { data2[136], data2[137], data2[138], data2[139] }, 0).ToString();
+            QuestSub2RewardsRemID.Text = BitConverter.ToUInt32(new byte[] { data2[140], data2[141], data2[142], data2[143] }, 0).ToString();
+            QuestSupplyBoxRemID.Text = BitConverter.ToUInt32(new byte[] { data2[144], data2[145], data2[146], data2[147] }, 0).ToString();
+            QuestHunterRankRewardPoints.Text = BitConverter.ToUInt32(new byte[] { data2[160], data2[161], data2[162], data2[163] }, 0).ToString();
             #endregion
             #region Monsters
             for (int i = 0; i < 7; i++)
@@ -6294,36 +6512,36 @@ namespace Custom_Quest_Editor
                 MBMo[i].SelectedIndex = BitConverter.ToInt32(new byte[] { data2[233 + 65 * i], data2[234 + 65 * i], data2[235 + 65 * i], data2[236 + 65 * i] }, 0);
                 MonsterSize[i].Text = BitConverter.ToInt32(new byte[] { data2[201 + 65 * i], data2[202 + 65 * i], data2[203 + 65 * i], data2[204 + 65 * i] }, 0).ToString();
             }
-            sMsobj.Text = BitConverter.ToInt32(new byte[] { data2[627], data2[628], data2[629], data2[630] }, 0).ToString();
-            sMHP.SelectedIndex = BitConverter.ToInt32(new byte[] { data2[631], data2[632], data2[633], data2[634] }, 0);
-            sMAt.SelectedIndex = BitConverter.ToInt32(new byte[] { data2[635], data2[636], data2[637], data2[638] }, 0);
-            sMDe.SelectedIndex = BitConverter.ToInt32(new byte[] { data2[639], data2[640], data2[641], data2[642] }, 0);
-            MPMod.Text = BitConverter.ToInt32(new byte[] { data2[644], data2[645], data2[646], data2[647] }, 0).ToString();
+            SmallMonstersSobjID.Text = BitConverter.ToInt32(new byte[] { data2[627], data2[628], data2[629], data2[630] }, 0).ToString();
+            SmallMonstersHealthPct.SelectedIndex = BitConverter.ToInt32(new byte[] { data2[631], data2[632], data2[633], data2[634] }, 0);
+            SmallMonstersAttackPct.SelectedIndex = BitConverter.ToInt32(new byte[] { data2[635], data2[636], data2[637], data2[638] }, 0);
+            SmallMonstersKOStatusDefensePct.SelectedIndex = BitConverter.ToInt32(new byte[] { data2[639], data2[640], data2[641], data2[642] }, 0);
+            MultiPlayerModifier.Text = BitConverter.ToInt32(new byte[] { data2[644], data2[645], data2[646], data2[647] }, 0).ToString();
             #endregion
             #region Spawn, Map Icons, and Arena
             for (int i = 0; i < 5; i++)
                 MSSpw[i].SelectedIndex = data2[652 + 4 * i];
-            for (int i=0;i<SpawnText.Length;i++)
-                SpawnText[i].Text= data2[672 + 4 * i].ToString();
-            for (int i=0;i<MapIcons.Length;i++)
+            for (int i = 0; i < SpawnText.Length; i++)
+                SpawnText[i].Text = data2[672 + 4 * i].ToString();
+            for (int i = 0; i < MapIcons.Length; i++)
                 MapIcons[i].SelectedIndex = BitConverter.ToInt32(new byte[] { data2[704 + 4 * i], data2[705 + 4 * i], data2[706 + 4 * i], data2[707 + 4 * i] }, 0);
-            for (int i=0;i<5;i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (data2[908 + 4 * i] == 0)
                     SmlMonIcons[i].SelectedIndex = 127;
                 else SmlMonIcons[i].SelectedIndex = data2[928 + 4 * i];
             }
-            SetID.Text= BitConverter.ToInt32(new byte[] { data2[948], data2[949], data2[950], data2[951] }, 0).ToString();
+            ArenaGearSetID.Text = BitConverter.ToInt32(new byte[] { data2[948], data2[949], data2[950], data2[951] }, 0).ToString();
             RV = BitConverter.ToInt32(new byte[] { data2[952], data2[952], data2[954], data2[955] }, 0);
             if (RV == 0)
-                NPlayers.SelectedIndex = 3;
-            else NPlayers.SelectedIndex = RV - 1;
+                QuestNumberOfPlayers.SelectedIndex = 3;
+            else QuestNumberOfPlayers.SelectedIndex = RV - 1;
             for (int i = 0; i < 3; i++)
-                ArenaText[i].Text = BitConverter.ToInt32(new byte[] { data2[956 + 4 * i], data2[957 + 4 * i], data2[958+4*i], data2[959+4*i] }, 0).ToString();
+                ArenaText[i].Text = BitConverter.ToInt32(new byte[] { data2[956 + 4 * i], data2[957 + 4 * i], data2[958 + 4 * i], data2[959 + 4 * i] }, 0).ToString();
             if (data2[980] == 128)
-                Fence.IsChecked = true;
+                ArenaFenceSwitchEnableFlag.IsChecked = true;
             for (int i = 0; i < 2; i++)
-                ArenaText[3+i].Text = BitConverter.ToInt32(new byte[] { data2[988 + 4 * i], data2[989 + 4 * i], data2[990 + 4 * i], data2[991 + 4 * i] }, 0).ToString();
+                ArenaText[3 + i].Text = BitConverter.ToInt32(new byte[] { data2[988 + 4 * i], data2[989 + 4 * i], data2[990 + 4 * i], data2[991 + 4 * i] }, 0).ToString();
             #endregion
             #region Iceborne Unknowns
             for (int i = 0; i < 10; i++)
@@ -6333,58 +6551,32 @@ namespace Custom_Quest_Editor
             UnknwonValues[10].Text = data2[1048].ToString();
             for (int i = 0; i < 12; i++)
             {
-                UnknwonValues[i+11].Text = BitConverter.ToUInt32(new byte[] { data2[1049 + 4 * i], data2[1050 + 4 * i], data2[1051 + 4 * i], data2[1052 + 4 * i] }, 0).ToString();
+                UnknwonValues[i + 11].Text = BitConverter.ToUInt32(new byte[] { data2[1049 + 4 * i], data2[1050 + 4 * i], data2[1051 + 4 * i], data2[1052 + 4 * i] }, 0).ToString();
             }
             for (int i = 0; i < 3; i++)
             {
-                    UnknwonValues[i+24].Text = data2[1097+i].ToString();
+                UnknwonValues[i + 24].Text = data2[1097 + i].ToString();
             }
             #endregion
+
         }
-        private void Save_Click(object sender, RoutedEventArgs e)
+
+        public void saveData(string filename)
         {
-            
+            saveData(filename, filename);
+        }
+
+        public void saveData(string oldFilename, string newFilename)
+        {
+
+
             data = null;
             //data3 = null;
             data4 = null;
             cipher = new Cipher(key);
-            #region Defenitions
-            ComboBox[] MID = { M1ID, M2ID, M3ID, M4ID, M5ID, M6ID, M7ID };
-            TextBox[] MSobj = { M1sobjID, M2sobjID, M3sobjID, M4sobjID, M5sobjID, M6sobjID, M7sobjID };
-            CheckBox[] Tempered = { M1TFlag, M2TFlag, M3TFlag, M4TFlag, M5TFlag, M6TFlag, M7TFlag };
-            TextBox[] MonsterSize = { M1Siz, M2Siz, M3Siz, M4Siz, M5Siz, M6Siz, M7Siz };
-            ComboBox[] MHtP = { M1HtP, M2HtP, M3HtP, M4HtP, M5HtP, M6HtP, M7HtP };
-            ComboBox[] MAtk = { M1Atk, M2Atk, M3Atk, M4Atk, M5Atk, M6Atk, M7Atk };
-            ComboBox[] MDef = { M1Def, M2Def, M3Def, M4Def, M5Def, M6Def, M7Def };
-            ComboBox[] MHAR = { M1HAR, M2HAR, M3HAR, M4HAR, M5HAR, M6HAR, M7HAR };
-            ComboBox[] MSeT = { M1SeT, M2SeT, M3SeT, M4SeT, M5SeT, M6SeT, M7SeT };
-            ComboBox[] MPHP = { M1PHP, M2PHP, M3PHP, M4PHP, M5PHP, M6PHP, M7PHP };
-            ComboBox[] MBSt = { M1BSt, M2BSt, M3BSt, M4BSt, M5BSt, M6BSt, M7BSt };
-            ComboBox[] MStB = { M1StB, M2StB, M3StB, M4StB, M5StB, M6StB, M7StB };
-            ComboBox[] MBKO = { M1BKO, M2BKO, M3BKO, M4BKO, M5BKO, M6BKO, M7BKO };
-            ComboBox[] MBEx = { M1BEx, M2BEx, M3BEx, M4BEx, M5BEx, M6BEx, M7BEx };
-            ComboBox[] MBMo = { M1BMo, M2BMo, M3BMo, M4BMo, M5BMo, M6BMo, M7BMo };
-            ComboBox[] MSSpw = { M1SSpw, M2SSpw, M3SSpw, M4SSpw, M5SSpw };
-            ComboBox[] MonIcons = { Icon1, Icon2, Icon3, Icon4, Icon5 };
-            ComboBox[] SmlMonIcons = { SmlIcon1, SmlIcon2, SmlIcon3, SmlIcon4, SmlIcon5 };
-            ComboBox[] MapIcons = { MapIcon01, MapIcon02, MapIcon03, MapIcon04, MapIcon05,
-                MapIcon06, MapIcon07, MapIcon08, MapIcon09, MapIcon10, MapIcon11, MapIcon12,
-                MapIcon13, MapIcon14, MapIcon15, MapIcon16, MapIcon17, MapIcon18, MapIcon19,
-                MapIcon20, MapIcon21, MapIcon22, MapIcon23, MapIcon24, MapIcon25, MapIcon26,
-                MapIcon27, MapIcon28, MapIcon29, MapIcon30, MapIcon31, MapIcon32, MapIcon33,
-                MapIcon34, MapIcon35, MapIcon36, MapIcon37, MapIcon38, MapIcon39, MapIcon40,
-                MapIcon41, MapIcon42, MapIcon43, MapIcon44, MapIcon45, MapIcon46, MapIcon47,
-                MapIcon48, MapIcon49, MapIcon50, MapIcon51 };
-            TextBox[] SpawnText = { M6SpC, SpawnDelay, M7SpC, M3SpC, M4SpC, M5SpC, M6SpD, M7SpD };
-            TextBox[] ArenaText = { RankA, RankB, RankC, FenCD, FenUT };
-            TextBox[] UnknwonValues = { UnknownValue01, UnknownValue01, UnknownValue02, UnknownValue03,
-                UnknownValue04, UnknownValue05, UnknownValue06, UnknownValue07, UnknownValue08, UnknownValue09,
-                UnknownValue10, UnknownValue11, UnknownValue12, UnknownValue13, UnknownValue14, UnknownValue15,
-                UnknownValue16, UnknownValue17, UnknownValue18, UnknownValue19, UnknownValue20, UnknownValue21,
-                UnknownValue22, UnknownValue23, UnknownValue24, UnknownValue25, UnknownValue26 };
-            #endregion
-            int MapID = Map.SelectedIndex;
-            if (Stars.SelectedIndex < 11)
+
+            int MapID = QuestMap.SelectedIndex;
+            if (QuestStars.SelectedIndex < 11)
             {
                 for (int i = 0; i < ForbiddenMapIDs.Length; i++)
                 {
@@ -6403,23 +6595,23 @@ namespace Custom_Quest_Editor
                     }
                 }
             }
-            data = (File.ReadAllBytes(ofd.FileName));
+            data = (File.ReadAllBytes(oldFilename));
             WriteData = cipher.Decipher(data);
             for (int i = 4; i < WriteData.Length; i++)
                 data3[i - 4] = WriteData[i];
             #region Common and Objectives
-            byte[] buffer = BitConverter.GetBytes(Convert.ToInt32(QID.Text));
+            byte[] buffer = BitConverter.GetBytes(Convert.ToInt32(QuestID.Text));
             data3[6] = buffer[0];
             data3[7] = buffer[1];
             data3[8] = buffer[2];
             data3[9] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToByte(Stars.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToByte(QuestStars.SelectedIndex));
             data3[10] = buffer[0];
-            buffer = BitConverter.GetBytes(Convert.ToByte(Rank.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToByte(QuestRank.SelectedIndex));
             data3[19] = buffer[0];
             for (int i = 0; i < MapIDs.Length; i++)
             {
-                if(Map.SelectedIndex==i)
+                if (QuestMap.SelectedIndex == i)
                 {
                     buffer = BitConverter.GetBytes(MapIDs[i]);
                     data3[23] = buffer[0];
@@ -6428,26 +6620,26 @@ namespace Custom_Quest_Editor
                     data3[26] = buffer[3];
                 }
             }
-            buffer = BitConverter.GetBytes(Convert.ToByte(PSpawn.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToByte(QuestPlayerSpawnLocation.SelectedIndex));
             data3[27] = buffer[0];
-            if (FSpawn.IsChecked == true)
+            if (FixedSpawnFlag.IsChecked == true)
                 data3[31] = 0;
             else data3[31] = 1;
-            buffer = BitConverter.GetBytes(Convert.ToByte(Time.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToByte(TimeCycle.SelectedIndex));
             data3[39] = buffer[0];
-            buffer = BitConverter.GetBytes(Convert.ToByte(Weather.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToByte(WeatherCondition.SelectedIndex));
             data3[43] = buffer[0];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(Reward.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(QuestRewardMoney.Text));
             data3[51] = buffer[0];
             data3[52] = buffer[1];
             data3[53] = buffer[2];
             data3[54] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(Penalty.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(QuestFaintPenalty.Text));
             data3[55] = buffer[0];
             data3[56] = buffer[1];
             data3[57] = buffer[2];
             data3[58] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(Timer.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(QuestTimer.Text));
             data3[63] = buffer[0];
             data3[64] = buffer[1];
             data3[65] = buffer[2];
@@ -6458,40 +6650,40 @@ namespace Custom_Quest_Editor
                 data3[68 + 2 * i] = buffer[0];
                 data3[69 + 2 * i] = buffer[1];
             }
-            buffer = BitConverter.GetBytes(Convert.ToByte(HRReq.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToByte(QuestHunterHankRequirements.SelectedIndex));
             data3[78] = buffer[0];
             for (int i = 0; i < ObjectiveIDs.Length; i++)
             {
-                if (MObjT1.SelectedIndex == i)
+                if (MainObjective1Type.SelectedIndex == i)
                 {
                     buffer = BitConverter.GetBytes(ObjectiveIDs[i]);
                     data3[83] = buffer[0];
                 }
             }
-            if (MObj1MM.IsChecked == true)
+            if (MainObjective1MultiMonsterFlag.IsChecked == true)
                 data3[84] = 04;
             else data3[84] = 0;
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(MObjID1.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToUInt16(MainObjective1ID.SelectedIndex));
             data3[87] = buffer[0];
             data3[88] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(MObjC1.Text));
+            buffer = BitConverter.GetBytes(Convert.ToUInt16(MainObjective1Amount.Text));
             data3[89] = buffer[0];
             data3[90] = buffer[1];
             for (int i = 0; i < ObjectiveIDs.Length; i++)
             {
-                if (MObjT2.SelectedIndex == i)
+                if (MainObjective2Type.SelectedIndex == i)
                 {
                     buffer = BitConverter.GetBytes(ObjectiveIDs[i]);
                     data3[91] = buffer[0];
                 }
             }
-            if (MObj2MM.IsChecked == true)
+            if (MainObjective2MultiMonsterFlag.IsChecked == true)
                 data3[92] = 04;
             else data3[92] = 0;
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(MObjID2.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToUInt16(MainObjective2ID.SelectedIndex));
             data3[95] = buffer[0];
             data3[96] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(MObjC2.Text));
+            buffer = BitConverter.GetBytes(Convert.ToUInt16(MainObjective2Amount.Text));
             data3[97] = buffer[0];
             data3[98] = buffer[1];
             if (MultiO.IsChecked == true)
@@ -6499,508 +6691,72 @@ namespace Custom_Quest_Editor
             else data3[99] = 1;
             for (int i = 0; i < ObjectiveIDs.Length; i++)
             {
-                if (SObjT1.SelectedIndex == i)
+                if (SubObjective1Type.SelectedIndex == i)
                 {
                     buffer = BitConverter.GetBytes(ObjectiveIDs[i]);
                     data3[100] = buffer[0];
                 }
             }
-            if (SObj1MM.IsChecked == true)
+            if (SubObjective1MultiMonsterFlag.IsChecked == true)
                 data3[100] = 04;
             else data3[100] = 0;
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(SObjID1.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToUInt16(SubObjective1ID.SelectedIndex));
             data3[104] = buffer[0];
             data3[105] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(SObjC1.Text));
+            buffer = BitConverter.GetBytes(Convert.ToUInt16(SubObjective1Amount.Text));
             data3[106] = buffer[0];
             data3[107] = buffer[1];
             for (int i = 0; i < ObjectiveIDs.Length; i++)
             {
-                if (SObjT2.SelectedIndex == i)
+                if (SubObjective2Type.SelectedIndex == i)
                 {
                     buffer = BitConverter.GetBytes(ObjectiveIDs[i]);
                     data3[108] = buffer[0];
                 }
             }
-            if (SObj2MM.IsChecked == true)
+            if (SubObjective2MultiMonsterFlag.IsChecked == true)
                 data3[109] = 04;
             else data3[109] = 0;
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(SObjID2.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToUInt16(SubObjective2ID.SelectedIndex));
             data3[112] = buffer[0];
             data3[113] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(SObjC2.Text));
+            buffer = BitConverter.GetBytes(Convert.ToUInt16(SubObjective2Amount.Text));
             data3[114] = buffer[0];
             data3[115] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToByte(BGM.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToByte(QuestBackgroundMusic.SelectedIndex));
             data3[120] = buffer[0];
-            buffer = BitConverter.GetBytes(Convert.ToByte(QCMusic.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToByte(QuestClearMusic.SelectedIndex));
             data3[124] = buffer[0];
             for (int i = 0; i < QuestTypeIDs.Length; i++)
             {
-                if (QType.SelectedIndex == i)
+                if (QuestType.SelectedIndex == i)
                 {
                     buffer = BitConverter.GetBytes(QuestTypeIDs[i]);
                     data3[128] = buffer[0];
                 }
             }
-            data3[130] = Convert.ToByte(2 * Convert.ToInt32(ATFlag.IsChecked) + Convert.ToInt32(PSGear.IsChecked));
-            buffer = BitConverter.GetBytes(Convert.ToInt32(RRemID.Text));
+            data3[130] = Convert.ToByte(2 * Convert.ToInt32(QuestArchTemperedFlag.IsChecked) + Convert.ToInt32(QuestPreSelectedGearFlag.IsChecked));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(QuestItemRewardsRemID.Text));
             data3[132] = buffer[0];
             data3[133] = buffer[1];
             data3[134] = buffer[2];
             data3[135] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(S1RRemID.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(QuestSub1RewardsRemID.Text));
             data3[136] = buffer[0];
             data3[137] = buffer[1];
             data3[138] = buffer[2];
             data3[139] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(S2RRemID.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(QuestSub2RewardsRemID.Text));
             data3[140] = buffer[0];
             data3[141] = buffer[1];
             data3[142] = buffer[2];
             data3[143] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(SRemID.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(QuestSupplyBoxRemID.Text));
             data3[144] = buffer[0];
             data3[145] = buffer[1];
             data3[146] = buffer[2];
             data3[147] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(HRpoint.Text));
-            data3[160] = buffer[0];
-            data3[161] = buffer[1];
-            data3[162] = buffer[2];
-            data3[163] = buffer[3];
-            #endregion
-            #region Monsters
-            for (int i = 0; i < 7; i++)
-            {
-                if (MID[i].SelectedIndex == 0)
-                {
-                    data3[172 + 65 * i] = 255;
-                    data3[173 + 65 * i] = 255;
-                    data3[174 + 65 * i] = 255;
-                    data3[175 + 65 * i] = 255;
-                }
-                else
-                {
-                    buffer= BitConverter.GetBytes(Convert.ToInt32(MID[i].SelectedIndex-1));
-                    data3[172 + 65 * i] = buffer[0];
-                    data3[173 + 65 * i] = buffer[1];
-                    data3[174 + 65 * i] = buffer[2];
-                    data3[175 + 65 * i] = buffer[3];
-                }
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MSobj[i].Text));
-                data3[176 + 65 * i] = buffer[0];
-                data3[177 + 65 * i] = buffer[1];
-                data3[178 + 65 * i] = buffer[2];
-                data3[179 + 65 * i] = buffer[3];
-                if (Tempered[i].IsChecked == true)
-                    data3[184 + 65 * i] = 1;
-                else data3[184 + 65 * i] = 0;
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MHtP[i].SelectedIndex));
-                data3[185 + 65 * i] = buffer[0];
-                data3[186 + 65 * i] = buffer[1];
-                data3[187 + 65 * i] = buffer[2];
-                data3[188 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MAtk[i].SelectedIndex));
-                data3[189 + 65 * i] = buffer[0];
-                data3[190 + 65 * i] = buffer[1];
-                data3[191 + 65 * i] = buffer[2];
-                data3[192 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MDef[i].SelectedIndex));
-                data3[193 + 65 * i] = buffer[0];
-                data3[194 + 65 * i] = buffer[1];
-                data3[195 + 65 * i] = buffer[2];
-                data3[196 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MHAR[i].SelectedIndex));
-                data3[197 + 65 * i] = buffer[0];
-                data3[198 + 65 * i] = buffer[1];
-                data3[199 + 65 * i] = buffer[2];
-                data3[200 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MSeT[i].SelectedIndex));
-                data3[205 + 65 * i] = buffer[0];
-                data3[206 + 65 * i] = buffer[1];
-                data3[207 + 65 * i] = buffer[2];
-                data3[208 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MPHP[i].SelectedIndex));
-                data3[213 + 65 * i] = buffer[0];
-                data3[214 + 65 * i] = buffer[1];
-                data3[215 + 65 * i] = buffer[2];
-                data3[216 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MBSt[i].SelectedIndex));
-                data3[217 + 65 * i] = buffer[0];
-                data3[218 + 65 * i] = buffer[1];
-                data3[219 + 65 * i] = buffer[2];
-                data3[220 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MStB[i].SelectedIndex));
-                data3[221 + 65 * i] = buffer[0];
-                data3[222 + 65 * i] = buffer[1];
-                data3[223 + 65 * i] = buffer[2];
-                data3[224 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MBKO[i].SelectedIndex));
-                data3[225 + 65 * i] = buffer[0];
-                data3[226 + 65 * i] = buffer[1];
-                data3[227 + 65 * i] = buffer[2];
-                data3[228 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MBEx[i].SelectedIndex));
-                data3[229 + 65 * i] = buffer[0];
-                data3[230 + 65 * i] = buffer[1];
-                data3[231 + 65 * i] = buffer[2];
-                data3[232 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MBMo[i].SelectedIndex));
-                data3[233 + 65 * i] = buffer[0];
-                data3[234 + 65 * i] = buffer[1];
-                data3[235 + 65 * i] = buffer[2];
-                data3[236 + 65 * i] = buffer[3];
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MonsterSize[i].Text));
-                data3[201 + 65 * i] = buffer[0];
-                data3[202 + 65 * i] = buffer[1];
-                data3[203 + 65 * i] = buffer[2];
-                data3[204 + 65 * i] = buffer[3];
-            }
-
-            buffer = BitConverter.GetBytes(Convert.ToInt32(sMsobj.Text));
-            data3[627] = buffer[0];
-            data3[628] = buffer[1];
-            data3[629] = buffer[2];
-            data3[630] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(sMHP.SelectedIndex));
-            data3[631] = buffer[0];
-            data3[632] = buffer[1];
-            data3[633] = buffer[2];
-            data3[634] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(sMAt.SelectedIndex));
-            data3[635] = buffer[0];
-            data3[636] = buffer[1];
-            data3[637] = buffer[2];
-            data3[638] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(sMDe.SelectedIndex));
-            data3[639] = buffer[0];
-            data3[640] = buffer[1];
-            data3[641] = buffer[2];
-            data3[642] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(MPMod.Text));
-            data3[644] = buffer[0];
-            data3[645] = buffer[1];
-            data3[646] = buffer[2];
-            data3[647] = buffer[3];
-            #endregion
-            #region Spawn, Map Icons, and Arena
-            for (int i = 0; i < 5; i++)
-                data3[652 + 4 * i] = Convert.ToByte(MSSpw[i].SelectedIndex);
-            for (int i = 0; i < SpawnText.Length; i++)
-                data3[672 + 4 * i] = Convert.ToByte(SpawnText[i].Text);
-            for (int i = 0; i < MapIcons.Length; i++)
-            {
-                buffer = BitConverter.GetBytes(Convert.ToInt32(MapIcons[i].SelectedIndex));
-                data3[704 + 4 * i] = buffer[0];
-                data3[705 + 4 * i] = buffer[1];
-                data3[706 + 4 * i] = buffer[2];
-                data3[707 + 4 * i] = buffer[3];
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                if (SmlMonIcons[i].SelectedIndex == 127)
-                {
-                    data3[908 + 4 * i] = 0;
-                    data3[928 + 4 * i] = 0;
-                }
-                else
-                    data3[928 + 4 * i] = Convert.ToByte(SmlMonIcons[i].SelectedIndex);
-            }
-            buffer = BitConverter.GetBytes(Convert.ToInt32(SetID.Text));
-            data3[948] = buffer[0];
-            data3[949] = buffer[1];
-            data3[950] = buffer[2];
-            data3[951] = buffer[3];
-            if (NPlayers.SelectedIndex == 3)
-            {
-                data3[952] = 0;
-                data3[953] = 0;
-                data3[954] = 0;
-                data3[955] = 0;
-            }
-            else
-            {
-                buffer = BitConverter.GetBytes(Convert.ToInt32(NPlayers.SelectedIndex+1));
-                data3[952] = buffer[0];
-                data3[953] = buffer[1];
-                data3[954] = buffer[2];
-                data3[955] = buffer[3];
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                buffer = BitConverter.GetBytes(Convert.ToInt32(ArenaText[i].Text));
-                data3[956 + 4 * i] = buffer[0];
-                data3[957 + 4 * i] = buffer[1];
-                data3[958 + 4 * i] = buffer[2];
-                data3[959 + 4 * i] = buffer[3];
-            }
-            if (MObj2MM.IsChecked == true)
-                data3[980] = 128;
-            else data3[980] = 0;
-
-            for (int i = 0; i < 2; i++)
-            {
-                buffer = BitConverter.GetBytes(Convert.ToInt32(ArenaText[3+i].Text));
-                data3[988 + 4 * i] = buffer[0];
-                data3[989 + 4 * i] = buffer[1];
-                data3[990 + 4 * i] = buffer[2];
-                data3[991 + 4 * i] = buffer[3];
-            }
-            #endregion
-            #region Iceborne Unknowns
-            for (int i = 0; i < 10; i++)
-            {
-                buffer = BitConverter.GetBytes(Convert.ToInt32(UnknwonValues[i].Text));
-                data3[1008 + 4 * i] = buffer[0];
-                data3[1009 + 4 * i] = buffer[1];
-                data3[1010 + 4 * i] = buffer[2];
-                data3[1011 + 4 * i] = buffer[3];
-            }
-            buffer = BitConverter.GetBytes(Convert.ToInt32(UnknwonValues[10].Text));
-            data3[1048] = buffer[0];
-            for (int i = 0; i < 12; i++)
-            {
-                buffer = BitConverter.GetBytes(Convert.ToInt32(UnknwonValues[i + 11].Text));
-                data3[1049 + 4 * i] = buffer[0];
-                data3[1050 + 4 * i] = buffer[1];
-                data3[1051 + 4 * i] = buffer[2];
-                data3[1052 + 4 * i] = buffer[3];
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                buffer = BitConverter.GetBytes(Convert.ToInt32(UnknwonValues[i + 24].Text));
-                data3[1097 + i] = buffer[0];
-            }
-            #endregion
-            for (int i = 4; i < WriteData.Length; i++)
-                WriteData[i] = data3[i - 4];
-            data4 = cipher.Encipher(WriteData);
-            File.WriteAllBytes(ofd.FileName, data4);
-        }
-        private void SaveAs_Click(object sender, RoutedEventArgs e)
-        {
-            data = null;
-            //data3 = null;
-            data4 = null;
-            cipher = new Cipher(key);
-            #region Defenitions
-            ComboBox[] MID = { M1ID, M2ID, M3ID, M4ID, M5ID, M6ID, M7ID };
-            TextBox[] MSobj = { M1sobjID, M2sobjID, M3sobjID, M4sobjID, M5sobjID, M6sobjID, M7sobjID };
-            CheckBox[] Tempered = { M1TFlag, M2TFlag, M3TFlag, M4TFlag, M5TFlag, M6TFlag, M7TFlag };
-            TextBox[] MonsterSize = { M1Siz, M2Siz, M3Siz, M4Siz, M5Siz, M6Siz, M7Siz };
-            ComboBox[] MHtP = { M1HtP, M2HtP, M3HtP, M4HtP, M5HtP, M6HtP, M7HtP };
-            ComboBox[] MAtk = { M1Atk, M2Atk, M3Atk, M4Atk, M5Atk, M6Atk, M7Atk };
-            ComboBox[] MDef = { M1Def, M2Def, M3Def, M4Def, M5Def, M6Def, M7Def };
-            ComboBox[] MHAR = { M1HAR, M2HAR, M3HAR, M4HAR, M5HAR, M6HAR, M7HAR };
-            ComboBox[] MSeT = { M1SeT, M2SeT, M3SeT, M4SeT, M5SeT, M6SeT, M7SeT };
-            ComboBox[] MPHP = { M1PHP, M2PHP, M3PHP, M4PHP, M5PHP, M6PHP, M7PHP };
-            ComboBox[] MBSt = { M1BSt, M2BSt, M3BSt, M4BSt, M5BSt, M6BSt, M7BSt };
-            ComboBox[] MStB = { M1StB, M2StB, M3StB, M4StB, M5StB, M6StB, M7StB };
-            ComboBox[] MBKO = { M1BKO, M2BKO, M3BKO, M4BKO, M5BKO, M6BKO, M7BKO };
-            ComboBox[] MBEx = { M1BEx, M2BEx, M3BEx, M4BEx, M5BEx, M6BEx, M7BEx };
-            ComboBox[] MBMo = { M1BMo, M2BMo, M3BMo, M4BMo, M5BMo, M6BMo, M7BMo };
-            ComboBox[] MSSpw = { M1SSpw, M2SSpw, M3SSpw, M4SSpw, M5SSpw };
-            ComboBox[] MonIcons = { Icon1, Icon2, Icon3, Icon4, Icon5 };
-            ComboBox[] SmlMonIcons = { SmlIcon1, SmlIcon2, SmlIcon3, SmlIcon4, SmlIcon5 };
-            ComboBox[] MapIcons = { MapIcon01, MapIcon02, MapIcon03, MapIcon04, MapIcon05,
-                MapIcon06, MapIcon07, MapIcon08, MapIcon09, MapIcon10, MapIcon11, MapIcon12,
-                MapIcon13, MapIcon14, MapIcon15, MapIcon16, MapIcon17, MapIcon18, MapIcon19,
-                MapIcon20, MapIcon21, MapIcon22, MapIcon23, MapIcon24, MapIcon25, MapIcon26,
-                MapIcon27, MapIcon28, MapIcon29, MapIcon30, MapIcon31, MapIcon32, MapIcon33,
-                MapIcon34, MapIcon35, MapIcon36, MapIcon37, MapIcon38, MapIcon39, MapIcon40,
-                MapIcon41, MapIcon42, MapIcon43, MapIcon44, MapIcon45, MapIcon46, MapIcon47,
-                MapIcon48, MapIcon49, MapIcon50, MapIcon51 };
-            TextBox[] SpawnText = { M6SpC, SpawnDelay, M7SpC, M3SpC, M4SpC, M5SpC, M6SpD, M7SpD };
-            TextBox[] ArenaText = { RankA, RankB, RankC, FenCD, FenUT };
-            TextBox[] UnknwonValues = { UnknownValue01, UnknownValue01, UnknownValue02, UnknownValue03,
-                UnknownValue04, UnknownValue05, UnknownValue06, UnknownValue07, UnknownValue08, UnknownValue09,
-                UnknownValue10, UnknownValue11, UnknownValue12, UnknownValue13, UnknownValue14, UnknownValue15,
-                UnknownValue16, UnknownValue17, UnknownValue18, UnknownValue19, UnknownValue20, UnknownValue21,
-                UnknownValue22, UnknownValue23, UnknownValue24, UnknownValue25, UnknownValue26 };
-            #endregion
-            int MapID = Map.SelectedIndex;
-            if (Stars.SelectedIndex < 11)
-            {
-                for (int i = 0; i < ForbiddenMapIDs.Length; i++)
-                {
-                    if (ForbiddenMapIDs[i] == MapIDs[MapID])
-                    {
-                        MessageBox.Show("THIS MAP IS ILLEGAL FOR LOW AND HIGH RANK QUESTS");
-                        return;
-                    }
-                }
-                for (int i = 0; i < 7; i++)
-                { 
-                        if (MID[i].SelectedIndex > 61)
-                        {
-                            MessageBox.Show("Monster #" + (i + 1).ToString() + " IS ILLEGAL FOR LOW AND HIGH RANK QUESTS");
-                            return;
-                        }
-                }
-            }
-            data = (File.ReadAllBytes(ofd.FileName));
-            WriteData = cipher.Decipher(data);
-            for (int i = 4; i < WriteData.Length; i++)
-                data3[i - 4] = WriteData[i];
-            #region Common and Objectives
-            byte[] buffer = BitConverter.GetBytes(Convert.ToInt32(QID.Text));
-            data3[6] = buffer[0];
-            data3[7] = buffer[1];
-            data3[8] = buffer[2];
-            data3[9] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToByte(Stars.SelectedIndex));
-            data3[10] = buffer[0];
-            buffer = BitConverter.GetBytes(Convert.ToByte(Rank.SelectedIndex));
-            data3[19] = buffer[0];
-            for (int i = 0; i < MapIDs.Length; i++)
-            {
-                if (Map.SelectedIndex == i)
-                {
-                    buffer = BitConverter.GetBytes(MapIDs[i]);
-                    data3[23] = buffer[0];
-                    data3[24] = buffer[1];
-                    data3[25] = buffer[2];
-                    data3[26] = buffer[3];
-                }
-            }
-            buffer = BitConverter.GetBytes(Convert.ToByte(PSpawn.SelectedIndex));
-            data3[27] = buffer[0];
-            if (FSpawn.IsChecked == true)
-                data3[31] = 0;
-            else data3[31] = 1;
-            buffer = BitConverter.GetBytes(Convert.ToByte(Time.SelectedIndex));
-            data3[39] = buffer[0];
-            buffer = BitConverter.GetBytes(Convert.ToByte(Weather.SelectedIndex));
-            data3[43] = buffer[0];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(Reward.Text));
-            data3[51] = buffer[0];
-            data3[52] = buffer[1];
-            data3[53] = buffer[2];
-            data3[54] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(Penalty.Text));
-            data3[55] = buffer[0];
-            data3[56] = buffer[1];
-            data3[57] = buffer[2];
-            data3[58] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(Timer.Text));
-            data3[63] = buffer[0];
-            data3[64] = buffer[1];
-            data3[65] = buffer[2];
-            data3[66] = buffer[3];
-            for (int i = 0; i < 5; i++)
-            {
-                buffer = BitConverter.GetBytes(Convert.ToUInt16(MonIcons[i].SelectedIndex));
-                data3[68 + 2 * i] = buffer[0];
-                data3[69 + 2 * i] = buffer[1];
-            }
-            buffer = BitConverter.GetBytes(Convert.ToByte(HRReq.SelectedIndex));
-            data3[78] = buffer[0];
-            for (int i = 0; i < ObjectiveIDs.Length; i++)
-            {
-                if (MObjT1.SelectedIndex == i)
-                {
-                    buffer = BitConverter.GetBytes(ObjectiveIDs[i]);
-                    data3[83] = buffer[0];
-                }
-            }
-            if (MObj1MM.IsChecked == true)
-                data3[84] = 04;
-            else data3[84] = 0;
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(MObjID1.SelectedIndex));
-            data3[87] = buffer[0];
-            data3[88] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(MObjC1.Text));
-            data3[89] = buffer[0];
-            data3[90] = buffer[1];
-            for (int i = 0; i < ObjectiveIDs.Length; i++)
-            {
-                if (MObjT2.SelectedIndex == i)
-                {
-                    buffer = BitConverter.GetBytes(ObjectiveIDs[i]);
-                    data3[91] = buffer[0];
-                }
-            }
-            if (MObj2MM.IsChecked == true)
-                data3[92] = 04;
-            else data3[92] = 0;
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(MObjID2.SelectedIndex));
-            data3[95] = buffer[0];
-            data3[96] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(MObjC2.Text));
-            data3[97] = buffer[0];
-            data3[98] = buffer[1];
-            if (MultiO.IsChecked == true)
-                data3[99] = 2;
-            else data3[99] = 1;
-            for (int i = 0; i < ObjectiveIDs.Length; i++)
-            {
-                if (SObjT1.SelectedIndex == i)
-                {
-                    buffer = BitConverter.GetBytes(ObjectiveIDs[i]);
-                    data3[100] = buffer[0];
-                }
-            }
-            if (SObj1MM.IsChecked == true)
-                data3[100] = 04;
-            else data3[100] = 0;
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(SObjID1.SelectedIndex));
-            data3[104] = buffer[0];
-            data3[105] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(SObjC1.Text));
-            data3[106] = buffer[0];
-            data3[107] = buffer[1];
-            for (int i = 0; i < ObjectiveIDs.Length; i++)
-            {
-                if (SObjT2.SelectedIndex == i)
-                {
-                    buffer = BitConverter.GetBytes(ObjectiveIDs[i]);
-                    data3[108] = buffer[0];
-                }
-            }
-            if (SObj2MM.IsChecked == true)
-                data3[109] = 04;
-            else data3[109] = 0;
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(SObjID2.SelectedIndex));
-            data3[112] = buffer[0];
-            data3[113] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToUInt16(SObjC2.Text));
-            data3[114] = buffer[0];
-            data3[115] = buffer[1];
-            buffer = BitConverter.GetBytes(Convert.ToByte(BGM.SelectedIndex));
-            data3[120] = buffer[0];
-            buffer = BitConverter.GetBytes(Convert.ToByte(QCMusic.SelectedIndex));
-            data3[124] = buffer[0];
-            for (int i = 0; i < QuestTypeIDs.Length; i++)
-            {
-                if (QType.SelectedIndex == i)
-                {
-                    buffer = BitConverter.GetBytes(QuestTypeIDs[i]);
-                    data3[128] = buffer[0];
-                }
-            }
-            data3[130] = Convert.ToByte(2 * Convert.ToInt32(ATFlag.IsChecked) + Convert.ToInt32(PSGear.IsChecked));
-            buffer = BitConverter.GetBytes(Convert.ToInt32(RRemID.Text));
-            data3[132] = buffer[0];
-            data3[133] = buffer[1];
-            data3[134] = buffer[2];
-            data3[135] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(S1RRemID.Text));
-            data3[136] = buffer[0];
-            data3[137] = buffer[1];
-            data3[138] = buffer[2];
-            data3[139] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(S2RRemID.Text));
-            data3[140] = buffer[0];
-            data3[141] = buffer[1];
-            data3[142] = buffer[2];
-            data3[143] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(SRemID.Text));
-            data3[144] = buffer[0];
-            data3[145] = buffer[1];
-            data3[146] = buffer[2];
-            data3[147] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(HRpoint.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(QuestHunterRankRewardPoints.Text));
             data3[160] = buffer[0];
             data3[161] = buffer[1];
             data3[162] = buffer[2];
@@ -7094,27 +6850,27 @@ namespace Custom_Quest_Editor
                 data3[204 + 65 * i] = buffer[3];
             }
 
-            buffer = BitConverter.GetBytes(Convert.ToInt32(sMsobj.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(SmallMonstersSobjID.Text));
             data3[627] = buffer[0];
             data3[628] = buffer[1];
             data3[629] = buffer[2];
             data3[630] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(sMHP.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(SmallMonstersHealthPct.SelectedIndex));
             data3[631] = buffer[0];
             data3[632] = buffer[1];
             data3[633] = buffer[2];
             data3[634] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(sMAt.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(SmallMonstersAttackPct.SelectedIndex));
             data3[635] = buffer[0];
             data3[636] = buffer[1];
             data3[637] = buffer[2];
             data3[638] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(sMDe.SelectedIndex));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(SmallMonstersKOStatusDefensePct.SelectedIndex));
             data3[639] = buffer[0];
             data3[640] = buffer[1];
             data3[641] = buffer[2];
             data3[642] = buffer[3];
-            buffer = BitConverter.GetBytes(Convert.ToInt32(MPMod.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(MultiPlayerModifier.Text));
             data3[644] = buffer[0];
             data3[645] = buffer[1];
             data3[646] = buffer[2];
@@ -7143,11 +6899,12 @@ namespace Custom_Quest_Editor
                 else
                     data3[928 + 4 * i] = Convert.ToByte(SmlMonIcons[i].SelectedIndex);
             }
-            buffer = BitConverter.GetBytes(Convert.ToInt32(SetID.Text));
+            buffer = BitConverter.GetBytes(Convert.ToInt32(ArenaGearSetID.Text));
             data3[948] = buffer[0];
             data3[949] = buffer[1];
             data3[950] = buffer[2];
-            data3[951] = buffer[3]; if (NPlayers.SelectedIndex == 3)
+            data3[951] = buffer[3];
+            if (QuestNumberOfPlayers.SelectedIndex == 3)
             {
                 data3[952] = 0;
                 data3[953] = 0;
@@ -7156,7 +6913,7 @@ namespace Custom_Quest_Editor
             }
             else
             {
-                buffer = BitConverter.GetBytes(Convert.ToInt32(NPlayers.SelectedIndex + 1));
+                buffer = BitConverter.GetBytes(Convert.ToInt32(QuestNumberOfPlayers.SelectedIndex + 1));
                 data3[952] = buffer[0];
                 data3[953] = buffer[1];
                 data3[954] = buffer[2];
@@ -7170,7 +6927,7 @@ namespace Custom_Quest_Editor
                 data3[958 + 4 * i] = buffer[2];
                 data3[959 + 4 * i] = buffer[3];
             }
-            if (MObj2MM.IsChecked == true)
+            if (MainObjective2MultiMonsterFlag.IsChecked == true)
                 data3[980] = 128;
             else data3[980] = 0;
 
@@ -7211,158 +6968,391 @@ namespace Custom_Quest_Editor
             for (int i = 4; i < WriteData.Length; i++)
                 WriteData[i] = data3[i - 4];
             data4 = cipher.Encipher(WriteData);
-            sfd.Filter = "MHW Quest File|*.mib";
-            if (QID.Text.Length == 0)
-                sfd.FileName = "questData_00000" + QID.Text + ".mib";
-            else if (QID.Text.Length == 1)
-                sfd.FileName = "questData_0000" + QID.Text + ".mib";
-            else if (QID.Text.Length == 2)
-                sfd.FileName = "questData_000" + QID.Text + ".mib";
-            else if (QID.Text.Length == 3)
-                sfd.FileName = "questData_00" + QID.Text + ".mib";
-            else if (QID.Text.Length == 4)
-                sfd.FileName = "questData_0" + QID.Text + ".mib";
-            else if (QID.Text.Length > 4)
-                sfd.FileName = "questData_" + QID.Text + ".mib";
-            sfd.ShowDialog();
-            if (sfd.FileName != "")
+            File.WriteAllBytes(newFilename, data4);
+        }
+
+        private List<Control> GetExportableFields()
+        {
+
+            List<Control> ctrls = new List<Control>();
+
+            // keeping it flat because I'm not dealing with nested objects
+            // Using UI elements as data structure. but who cares.
+            #region common tab
+            ctrls.Add(QuestID);
+            ctrls.Add(QuestStars);
+            ctrls.Add(QuestRank);
+            ctrls.Add(QuestMap);
+
+            ctrls.Add(QuestPlayerSpawnLocation);
+
+            ctrls.Add(FixedSpawnFlag);
+            ctrls.Add(TimeCycle);
+            ctrls.Add(WeatherCondition);
+            ctrls.Add(MultiPlayerModifier);
+            ctrls.Add(QuestTimer);
+            ctrls.Add(QuestRewardMoney);
+            ctrls.Add(QuestFaintPenalty);
+            ctrls.Add(QuestHunterHankRequirements);
+            ctrls.Add(QuestBackgroundMusic);
+            ctrls.Add(QuestType);
+            ctrls.Add(QuestHunterRankRewardPoints);
+            ctrls.Add(QuestItemRewardsRemID);
+            ctrls.Add(QuestSupplyBoxRemID);
+            ctrls.Add(QuestNumberOfPlayers);
+            ctrls.Add(QuestSub1RewardsRemID);
+            ctrls.Add(QuestSub2RewardsRemID);
+            ctrls.Add(QuestClearMusic);
+
+            ctrls.Add(QuestMapToggleFlag);
+            ctrls.Add(QuestArchTemperedFlag);
+            ctrls.Add(QuestPreSelectedGearFlag);
+
+
+            ctrls.Add(QuestObjectiveIcon1);
+            ctrls.Add(QuestObjectiveIcon2);
+            ctrls.Add(QuestObjectiveIcon3);
+            ctrls.Add(QuestObjectiveIcon4);
+            ctrls.Add(QuestObjectiveIcon5);
+            #endregion
+            #region Objectives
+
+            ctrls.Add(MultiO);
+
+            ctrls.Add(MainObjective1Type);
+            ctrls.Add(MainObjective1ID);
+            ctrls.Add(MainObjective1Amount);
+            ctrls.Add(MainObjective1MultiMonsterFlag);
+
+            ctrls.Add(MainObjective2Type);
+            ctrls.Add(MainObjective2ID);
+            ctrls.Add(MainObjective2Amount);
+            ctrls.Add(MainObjective2MultiMonsterFlag);
+
+            ctrls.Add(SubObjective1Type);
+            ctrls.Add(SubObjective1ID);
+            ctrls.Add(SubObjective1Amount);
+            ctrls.Add(SubObjective1MultiMonsterFlag);
+
+            ctrls.Add(SubObjective2Type);
+            ctrls.Add(SubObjective2ID);
+            ctrls.Add(SubObjective2Amount);
+            ctrls.Add(SubObjective2MultiMonsterFlag);
+
+            #endregion
+            #region Monsters
+
+            #region Mosnter1
+            ctrls.Add(Monster1ID);
+            ctrls.Add(Monster1SobjID);
+            ctrls.Add(Monster1HealthPct);
+            ctrls.Add(Monster1AttackPct);
+            ctrls.Add(Monster1DefensePct);
+            ctrls.Add(Monster1HPAttackRoll);
+            ctrls.Add(Monster1SizePct);
+            ctrls.Add(Monster1SizeTable);
+            ctrls.Add(Monster1PartHPPct);
+            ctrls.Add(Monster1BaseStatusResistPct);
+            ctrls.Add(Monster1StatusBuildupPct);
+            ctrls.Add(Monster1BaseStunPct);
+            ctrls.Add(Monster1BaseExhaustPct);
+            ctrls.Add(Monster1BaseMountPct);
+            ctrls.Add(Monster1ArchTemperedFlag);
+
+            #endregion
+            #region monster2
+            ctrls.Add(Monster2ID);
+            ctrls.Add(Monster2SobjID);
+            ctrls.Add(Monster2HealthPct);
+            ctrls.Add(Monster2AttackPct);
+            ctrls.Add(Monster2DefensePct);
+            ctrls.Add(Monster2HPAttackRoll);
+            ctrls.Add(Monster2SizePct);
+            ctrls.Add(Monster2SizeTable);
+            ctrls.Add(Monster2PartHPPct);
+            ctrls.Add(Monster2BaseStatusResistPct);
+            ctrls.Add(Monster2StatusBuildupPct);
+            ctrls.Add(Monster2BaseStunPct);
+            ctrls.Add(Monster2BaseExhaustPct);
+            ctrls.Add(Monster2BaseMountPct);
+            ctrls.Add(Monster2ArchTemperedFlag);
+
+            #endregion
+            #region Monster3
+
+            ctrls.Add(Monster3ID);
+            ctrls.Add(Monster3SobjID);
+            ctrls.Add(Monster3HealthPct);
+            ctrls.Add(Monster3AttackPct);
+            ctrls.Add(Monster3DefensePct);
+            ctrls.Add(Monster3HPAttackRoll);
+            ctrls.Add(Monster3SizePct);
+            ctrls.Add(Monster3SizeTable);
+            ctrls.Add(Monster3PartHPPct);
+            ctrls.Add(Monster3BaseStatusResistPct);
+            ctrls.Add(Monster3StatusBuildupPct);
+            ctrls.Add(Monster3BaseStunPct);
+            ctrls.Add(Monster3BaseExhaustPct);
+            ctrls.Add(Monster3BaseMountPct);
+            ctrls.Add(Monster3ArchTemperedFlag);
+
+            #endregion
+            #region Monster4
+
+            ctrls.Add(Monster4ID);
+            ctrls.Add(Monster4SobjID);
+            ctrls.Add(Monster4HealthPct);
+            ctrls.Add(Monster4AttackPct);
+            ctrls.Add(Monster4DefensePct);
+            ctrls.Add(Monster4HPAttackRoll);
+            ctrls.Add(Monster4SizePct);
+            ctrls.Add(Monster4SizeTable);
+            ctrls.Add(Monster4PartHPPct);
+            ctrls.Add(Monster4BaseStatusResistPct);
+            ctrls.Add(Monster4StatusBuildupPct);
+            ctrls.Add(Monster4BaseStunPct);
+            ctrls.Add(Monster4BaseExhaustPct);
+            ctrls.Add(Monster4BaseMountPct);
+            ctrls.Add(Monster4ArchTemperedFlag);
+
+            #endregion
+            #region Monster5
+
+            ctrls.Add(Monster5ID);
+            ctrls.Add(Monster5SobjID);
+            ctrls.Add(Monster5HealthPct);
+            ctrls.Add(Monster5AttackPct);
+            ctrls.Add(Monster5DefensePct);
+            ctrls.Add(Monster5HPAttackRoll);
+            ctrls.Add(Monster5SizePct);
+            ctrls.Add(Monster5SizeTable);
+            ctrls.Add(Monster5PartHPPct);
+            ctrls.Add(Monster5BaseStatusResistPct);
+            ctrls.Add(Monster5StatusBuildupPct);
+            ctrls.Add(Monster5BaseStunPct);
+            ctrls.Add(Monster5BaseExhaustPct);
+            ctrls.Add(Monster5BaseMountPct);
+            ctrls.Add(Monster5ArchTemperedFlag);
+
+            #endregion
+            #region Monster6
+
+            ctrls.Add(Monster6ID);
+            ctrls.Add(Monster6SobjID);
+            ctrls.Add(Monster6HealthPct);
+            ctrls.Add(Monster6AttackPct);
+            ctrls.Add(Monster6DefensePct);
+            ctrls.Add(Monster6HPAttackRoll);
+            ctrls.Add(Monster6SizePct);
+            ctrls.Add(Monster6SizeTable);
+            ctrls.Add(Monster6PartHPPct);
+            ctrls.Add(Monster6BaseStatusResistPct);
+            ctrls.Add(Monster6StatusBuildupPct);
+            ctrls.Add(Monster6BaseStunPct);
+            ctrls.Add(Monster6BaseExhaustPct);
+            ctrls.Add(Monster6BaseMountPct);
+            ctrls.Add(Monster6ArchTemperedFlag);
+
+            #endregion
+            #region Monster7
+
+            ctrls.Add(Monster7ID);
+            ctrls.Add(Monster7SobjID);
+            ctrls.Add(Monster7HealthPct);
+            ctrls.Add(Monster7AttackPct);
+            ctrls.Add(Monster7DefensePct);
+            ctrls.Add(Monster7HPAttackRoll);
+            ctrls.Add(Monster7SizePct);
+            ctrls.Add(Monster7SizeTable);
+            ctrls.Add(Monster7PartHPPct);
+            ctrls.Add(Monster7BaseStatusResistPct);
+            ctrls.Add(Monster7StatusBuildupPct);
+            ctrls.Add(Monster7BaseStunPct);
+            ctrls.Add(Monster7BaseExhaustPct);
+            ctrls.Add(Monster7BaseMountPct);
+            ctrls.Add(Monster7ArchTemperedFlag);
+
+
+
+            #endregion
+            #endregion
+            #region SmallMonsters
+
+            ctrls.Add(SmallMonstersSobjID);
+            ctrls.Add(SmallMonstersHealthPct);
+            ctrls.Add(SmallMonstersAttackPct);
+            ctrls.Add(SmallMonstersKOStatusDefensePct);
+
+
+            #endregion
+            #region Spawn
+
+            ctrls.Add(MonsterSpawnGlobalDelayInMinutes);
+
+
+            ctrls.Add(Monster1SequentialSpawnRules);
+            ctrls.Add(Monster2SequentialSpawnRules);
+            ctrls.Add(Monster3SequentialSpawnRules);
+            ctrls.Add(Monster4SequentialSpawnRules);
+            ctrls.Add(Monster5SequentialSpawnRules);
+
+            #endregion
+            #region TableSpawnChances
+
+            ctrls.Add(Monster6SpawnDecider);
+            ctrls.Add(Monster7SpawnDecider);
+            ctrls.Add(Monster3SpawnPercentChance);
+            ctrls.Add(Monster4SpawnPercentChance);
+            ctrls.Add(Monster5SpawnPercentChance);
+            ctrls.Add(Monster6SpawnPercentChance);
+            ctrls.Add(Monster7SpawnPercentChance);
+
+
+            #endregion
+            #region MapIcons
+
+            ctrls.Add(MapIconArea01Value1);
+            ctrls.Add(MapIconArea01Value2);
+            ctrls.Add(MapIconArea01Value3);
+            ctrls.Add(MapIconArea02Value1);
+            ctrls.Add(MapIconArea02Value2);
+            ctrls.Add(MapIconArea02Value3);
+            ctrls.Add(MapIconArea03Value1);
+            ctrls.Add(MapIconArea03Value2);
+            ctrls.Add(MapIconArea03Value3);
+            ctrls.Add(MapIconArea04Value1);
+            ctrls.Add(MapIconArea04Value2);
+            ctrls.Add(MapIconArea04Value3);
+            ctrls.Add(MapIconArea05Value1);
+            ctrls.Add(MapIconArea05Value2);
+            ctrls.Add(MapIconArea05Value3);
+            ctrls.Add(MapIconArea06Value1);
+            ctrls.Add(MapIconArea06Value2);
+            ctrls.Add(MapIconArea06Value3);
+            ctrls.Add(MapIconArea07Value1);
+            ctrls.Add(MapIconArea07Value2);
+            ctrls.Add(MapIconArea07Value3);
+            ctrls.Add(MapIconArea08Value1);
+            ctrls.Add(MapIconArea08Value2);
+            ctrls.Add(MapIconArea08Value3);
+            ctrls.Add(MapIconArea09Value1);
+            ctrls.Add(MapIconArea09Value2);
+            ctrls.Add(MapIconArea09Value3);
+            ctrls.Add(MapIconArea10Value1);
+            ctrls.Add(MapIconArea10Value2);
+            ctrls.Add(MapIconArea10Value3);
+            ctrls.Add(MapIconArea11Value1);
+            ctrls.Add(MapIconArea11Value2);
+            ctrls.Add(MapIconArea11Value3);
+            ctrls.Add(MapIconArea12Value1);
+            ctrls.Add(MapIconArea12Value2);
+            ctrls.Add(MapIconArea12Value3);
+            ctrls.Add(MapIconArea13Value1);
+            ctrls.Add(MapIconArea13Value2);
+            ctrls.Add(MapIconArea13Value3);
+            ctrls.Add(MapIconArea14Value1);
+            ctrls.Add(MapIconArea14Value2);
+            ctrls.Add(MapIconArea14Value3);
+            ctrls.Add(MapIconArea15Value1);
+            ctrls.Add(MapIconArea15Value2);
+            ctrls.Add(MapIconArea15Value3);
+            ctrls.Add(MapIconArea16Value1);
+            ctrls.Add(MapIconArea16Value2);
+            ctrls.Add(MapIconArea16Value3);
+            ctrls.Add(MapIconArea17Value1);
+            ctrls.Add(MapIconArea17Value2);
+            ctrls.Add(MapIconArea17Value3);
+
+
+            #endregion
+            #region SmallMonsterIcons
+
+
+            ctrls.Add(SmallMonsterIcon1);
+            ctrls.Add(SmallMonsterIcon2);
+            ctrls.Add(SmallMonsterIcon3);
+            ctrls.Add(SmallMonsterIcon4);
+            ctrls.Add(SmallMonsterIcon5);
+
+            #endregion
+            #region Arena
+
+            ctrls.Add(ArenaGearSetID);
+            ctrls.Add(ArenaRankATimerInSeconds);
+            ctrls.Add(ArenaRankBTimerInSeconds);
+            ctrls.Add(ArenaRankCTimerInSeconds);
+            ctrls.Add(ArenaFenceSwitchEnableFlag);
+            ctrls.Add(ArenaFenceCooldownInMinutes);
+            ctrls.Add(ArenaFenceUptimeInMinutes);
+            #endregion
+
+
+            return ctrls;
+        }
+
+        public void ImportData(string filename)
+        {
+            Dictionary<string, Object> imp = JsonConvert.DeserializeObject<Dictionary<string, Object>>(File.ReadAllText(filename, System.Text.Encoding.UTF8));
+
+
+            List<Control> importable = GetExportableFields();
+
+            foreach (Control c in importable)
             {
-                File.WriteAllBytes(sfd.FileName, data4);
+
+                if (false == imp.ContainsKey(c.Name))
+                {
+                    continue;
+                }
+
+                // .. reflection never works for me. so screw it.
+                if (c.GetType() == typeof(ComboBox))
+                {
+                    ComboBox cb = (ComboBox)c;
+                    cb.SelectedIndex = cb.Items.IndexOf(imp[cb.Name]);
+                }
+                else if (c.GetType() == typeof(TextBox))
+                {
+                    TextBox cb = (TextBox)c;
+                    cb.Text = (string)imp[cb.Name];
+                }
+                else if (c.GetType() == typeof(CheckBox))
+                {
+                    CheckBox cb = (CheckBox)c;
+                    cb.IsChecked = (bool)imp[cb.Name];
+                }
             }
-        }
-        private void PlayerSpawnChanged(object sender, RoutedEventArgs e)
-        {
-           //if (PSpawn.SelectedIndex == 0)
-           //    FSpawn.IsChecked = true;
-           //else
-           //    FSpawn.IsChecked = false;
-        }
-        private void FixedSpawn(object sender, RoutedEventArgs e)
-        {
-           // if (FSpawn.IsChecked == true)
-           //     PSpawn.SelectedIndex = 0;
-           // else if (PSpawn.SelectedIndex == 0)
-           //     PSpawn.SelectedIndex = 1;
-        }
-        private void MultiO_Checked(object sender, RoutedEventArgs e)
-        {
-            if (MultiO.IsChecked == true)
-                MObj2.IsEnabled = true;
-            else if (MultiO.IsChecked == false)
-                MObj2.IsEnabled = false;
-        }
-        private void MObjT1_Changed(object sender, RoutedEventArgs e)
-        {
-            MObjID1.Items.Clear();
-            if (MObjT1.SelectedIndex == 2)
-                for (int i = 0; i < Items.Length; i++)
-                    MObjID1.Items.Add(Items[i]);
-            else
-                for (int i = 1; i < MonsterNames.Length; i++)
-                    MObjID1.Items.Add(MonsterNames[i]);
-            MObjID1.SelectedIndex = 0;
-        }
-        private void MObjT2_Changed(object sender, RoutedEventArgs e)
-        {
 
-            MObjID2.Items.Clear();
-            if (MObjT2.SelectedIndex == 2)
-                for (int i = 0; i < Items.Length; i++)
-                    MObjID2.Items.Add(Items[i]);
-            else
-                for (int i = 1; i < MonsterNames.Length; i++)
-                    MObjID2.Items.Add(MonsterNames[i]);
-            MObjID2.SelectedIndex = 0;
         }
-        private void SObjT1_Changed(object sender, RoutedEventArgs e)
+        public void ExportData(string filename)
         {
-            SObjID1.Items.Clear();
-            if (SObjT1.SelectedIndex == 2)
-                for (int i = 0; i < Items.Length; i++)
-                    SObjID1.Items.Add(Items[i]);
-            else
-                for (int i = 1; i < MonsterNames.Length; i++)
-                    SObjID1.Items.Add(MonsterNames[i]);
-            SObjID1.SelectedIndex = 0;
-        }
-        private void SObjT2_Changed(object sender, RoutedEventArgs e)
-        {
+            Dictionary<string, Object> exp = new Dictionary<string, Object>();
 
-            SObjID2.Items.Clear();
-            if (SObjT2.SelectedIndex == 2)
-                for (int i = 0; i < Items.Length; i++)
-                    SObjID2.Items.Add(Items[i]);
-            else
-                for (int i = 1; i < MonsterNames.Length; i++)
-                    SObjID2.Items.Add(MonsterNames[i]);
-            SObjID2.SelectedIndex = 0;
-        }
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-        private void About_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("This tool was made by Aradi147. " +
-                "\nCredits go to Asterisk, Vuze, Zindea, NekotagaYuhatora, Material, hexhexhex, TITAN" +
-                "\nJunkBunny, Fandirus, Mace ya face,Bedtime, kkkkyue,eliottbw, Miralis, Silvris, Dave uRrr and everyone that worked on" +
-                "\ndocumenting the MIB file. I don't really even know half of them.");
-        }
-        private void Contact_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("To contact me and other modders, please vist \n https://discord.gg/gJwMdhK");
-        }
-        private void RankSelectionChanged (object sender, RoutedEventArgs e)
-        {
-
-            if (Rank.SelectedIndex == 2)
+            foreach (Control c in GetExportableFields())
             {
-                if (Stars.SelectedIndex < 11)
-                    Stars.SelectedIndex = 11;
+
+                // .. yerp
+                if (c.GetType() == typeof(ComboBox))
+                {
+                    ComboBox cb = (ComboBox)c;
+                    exp.Add(cb.Name, cb.Text);
+                }
+                else if (c.GetType() == typeof(TextBox))
+                {
+                    TextBox cb = (TextBox)c;
+                    exp.Add(cb.Name, cb.Text);
+                }
+                else if (c.GetType() == typeof(CheckBox))
+                {
+                    CheckBox cb = (CheckBox)c;
+                    exp.Add(cb.Name, cb.IsChecked);
+                }
+
             }
-            if (Stars.SelectedIndex > 10)
-                if (HRReq.SelectedIndex < 22)
-                HRReq.SelectedIndex = 22;
-        }
-        private void UnknownsChecked(object sender, RoutedEventArgs e)
-        {
-            UnkTab.IsEnabled = true;
-        }
-        private void UnkownsUnchecked(object sender, RoutedEventArgs e)
-        {
-            UnkTab.IsEnabled = false;
+
+            File.WriteAllText(filename, JsonConvert.SerializeObject(exp, Formatting.Indented));
         }
 
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-            
-        }
-        private void MaxValueInspection(object sender, RoutedEventArgs e)
-        {
-            TextBox[] UnknwonValues = { UnknownValue01, UnknownValue01, UnknownValue02, UnknownValue03,
-                UnknownValue04, UnknownValue05, UnknownValue06, UnknownValue07, UnknownValue08, UnknownValue09,
-                UnknownValue10, UnknownValue11, UnknownValue12, UnknownValue13, UnknownValue14, UnknownValue15,
-                UnknownValue16, UnknownValue17, UnknownValue18, UnknownValue19, UnknownValue20, UnknownValue21,
-                UnknownValue22, UnknownValue23, UnknownValue24, UnknownValue25, UnknownValue26 };
-            for (int i = 0; i < 23; i++)
-            {
-                Inspectingint32 = Convert.ToUInt64(UnknwonValues[i].Text);
-                if (Inspectingint32 > 4294967295)
-                    UnknwonValues[i].Text = 4294967295.ToString();
-            }
-            for (int i = 23; i < 27; i++)
-            {
-                Inspectingbyte = Convert.ToInt16(UnknwonValues[i].Text);
-                if (Inspectingbyte > 255)
-                    UnknwonValues[i].Text = 255.ToString();
-            }
-        }
-
-        private void Rank_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
+
 }
